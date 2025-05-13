@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Screenshot</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2575fc 0%, #ACB6E5 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #74ebd5;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: #74ebd5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #4db8a5;
+    }
+
+    #result {
+      margin-top: 25px;
+    }
+
+    #result img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #74ebd5;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    #libraryModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+      animation: fadeInModal 0.5s ease-in-out;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #libraryContent {
+      background: #fff;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 800px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    #libraryContent h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #libraryContent p.empty {
+      font-size: 16px;
+      color: #777;
+    }
+
+    #libraryContent .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    #libraryContent .image-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    #libraryContent .image-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #closeLibrary {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #closeLibrary:hover {
+      background: #ff1a1a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Website Screenshot Generator</h1>
+    <input type="text" id="urlInput" placeholder="Masukkan URL website...">
+    <br>
+    <button onclick="generateScreenshot()">Ambil Screenshot</button>
+
+    <div id="result"></div>
+
+    <button onclick="openLibrary()">Lihat Library</button>
+
+    <div class="footer">
+      Tunggu Hasil Screenshot Nya Sampai Muncul
+    </div>
+  </div>
+
+  <div id="libraryModal">
+    <button id="closeLibrary" onclick="closeLibrary()">&times;</button>
+    <div id="libraryContent">
+      <h2>Library</h2>
+      <p class="empty">Tidak ada gambar tersimpan.</p>
+      <div class="image-grid" id="imageGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    function generateScreenshot() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) {
+        alert('Masukkan URL terlebih dahulu.');
+        return;
+      }
+
+      const apiUrl = `https://api.ownblox.biz.id/api/ssweb?url=${encodeURIComponent(url)}`;
+      const resultDiv = document.getElementById('result');
+
+      resultDiv.innerHTML = '<div class="loader"></div><p>Memuat screenshot...</p>';
+
+      const img = new Image();
+      img.src = apiUrl;
+      img.alt = 'Screenshot Website';
+      img.onload = function() {
+        resultDiv.innerHTML = '';
+        resultDiv.appendChild(img);
+
+        const saveButton = document.createElement('button');
+        saveButton.innerText = 'Simpan ke Library';
+        saveButton.onclick = () => saveToLibrary(img.src);
+        resultDiv.appendChild(saveButton);
+      };
+      img.onerror = function() {
+        resultDiv.innerHTML = '<p>Gagal memuat screenshot. Pastikan URL benar!</p>';
+      };
+    }
+
+    function saveToLibrary(imageUrl) {
+      let library = JSON.parse(localStorage.getItem('library')) || [];
+      library.push(imageUrl);
+      localStorage.setItem('library', JSON.stringify(library));
+      alert('Gambar berhasil disimpan ke library!');
+    }
+
+    function openLibrary() {
+      const libraryModal = document.getElementById('libraryModal');
+      const imageGrid = document.getElementById('imageGrid');
+      const emptyMessage = document.querySelector('#libraryContent p.empty');
+
+      libraryModal.style.display = 'block';
+
+      const library = JSON.parse(localStorage.getItem('library')) || [];
+      if (library.length === 0) {
+        emptyMessage.style.display = 'block';
+        imageGrid.innerHTML = '';
+      } else {
+        emptyMessage.style.display = 'none';
+        imageGrid.innerHTML = '';
+        library.forEach((imageUrl) => {
+          const img = document.createElement('img');
+          img.src = imageUrl;
+          imageGrid.appendChild(img);
+        });
+      }
+    }
+
+    function closeLibrary() {
+      const libraryModal = document.getElementById('libraryModal');
+      libraryModal.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uji Kecepatan Internet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #226, #2575fc);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .result p {
+            margin: 10px 0;
+        }
+
+        .result span {
+            font-weight: bold;
+            color: #ff7e5f;
+            font-size: 1.2rem;
+        }
+
+        .loader {
+            margin: 20px auto 0; 
+            display: block; 
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @media (max-width: 600px) {
+            .loader {
+                width: 25px;
+                height: 25px;
+                border-width: 3px;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+
+            .result span {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Uji Kecepatan Internet</h1>
+        <button id="startTest">Mulai Uji Kecepatan</button>
+        <div class="result">
+            <p>Kecepatan Unduhan: <span id="downloadSpeed">-</span> Mbps</p>
+            <p>Kecepatan Unggahan: <span id="uploadSpeed">-</span> Mbps</p>
+        </div>
+        <div class="loader" id="loader" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.getElementById('startTest').addEventListener('click', function () {
+            testSpeed();
+        });
+
+        function testSpeed() {
+            const downloadSpeedElement = document.getElementById('downloadSpeed');
+            const uploadSpeedElement = document.getElementById('uploadSpeed');
+            const loader = document.getElementById('loader');
+
+            loader.style.display = 'block';
+            downloadSpeedElement.textContent = 'Mengukur...';
+            uploadSpeedElement.textContent = 'Mengukur...';
+
+            measureDownloadSpeed()
+                .then(downloadSpeed => {
+                    downloadSpeedElement.textContent = `${downloadSpeed.toFixed(2)} Mbps`;
+                    return measureUploadSpeed();
+                })
+                .then(uploadSpeed => {
+                    uploadSpeedElement.textContent = `${uploadSpeed.toFixed(2)} Mbps`;
+                    loader.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    downloadSpeedElement.textContent = 'Gagal';
+                    uploadSpeedElement.textContent = 'Gagal';
+                    loader.style.display = 'none'; 
+                });
+        }
+
+        function measureDownloadSpeed() {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                fetch('https://speed.cloudflare.com/__down?bytes=10000000') 
+                    .then(response => {
+                        if (!response.ok) throw new Error('Gagal mengunduh file');
+                        return response.arrayBuffer();
+                    })
+                    .then(() => {
+                        const endTime = Date.now();
+                        const duration = (endTime - startTime) / 1000; 
+                        const bitsLoaded = 10000000 * 8; 
+                        const speedMbps = bitsLoaded / duration / 1000000; 
+                        resolve(speedMbps);
+                    })
+                    .catch(reject);
+            });
+        }
+
+        function measureUploadSpeed() {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                const data = new ArrayBuffer(10000000); 
+                fetch('https://speed.cloudflare.com/__up', {
+                    method: 'POST',
+                    body: data
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Gagal mengunggah data');
+                        return response.text();
+                    })
+                    .then(() => {
+                        const endTime = Date.now();
+                        const duration = (endTime - startTime) / 1000; 
+                        const bitsUploaded = 10000000 * 8; 
+                        const speedMbps = bitsUploaded / duration / 1000000; 
+                        resolve(speedMbps);
+                    })
+                    .catch(reject);
+            });
+        }
+    </script>
+</body>
+</html>
