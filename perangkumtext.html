@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perangkum Teks Otomatis</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: #007bff;
+      margin: 10px auto 0;
+      border-radius: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 20px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      resize: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    textarea:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+      outline: none;
+    }
+
+    select, button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-top: 15px;
+    }
+
+    select {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    select:hover {
+      background: #e0e0e0;
+    }
+
+    button {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #003d80);
+      transform: scale(1.05);
+    }
+
+    #output {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      position: relative;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #copyBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 14px;
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #copyBtn:hover {
+      background: linear-gradient(135deg, #218838, #1e7e34);
+      transform: scale(1.1);
+    }
+
+    strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #007bff;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      textarea {
+        height: 150px;
+      }
+      button, select {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Perangkum Teks Otomatis</h1>
+
+    <textarea id="inputText" placeholder="Masukkan teks panjang di sini..."></textarea><br>
+
+    <label for="level">Pilih Tingkat Ringkasan:</label>
+    <select id="level">
+      <option value="short">Singkat (50%)</option>
+      <option value="medium">Agak Singkat (50-75%)</option>
+    </select>
+    <button onclick="ringkasTeks()">Ringkas</button>
+
+    <div id="output">
+      <button id="copyBtn" onclick="salinHasil()">Salin</button>
+      <strong>Ringkasan:</strong>
+      <p id="summaryText"></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedText = localStorage.getItem("inputText");
+      if (savedText) {
+        document.getElementById("inputText").value = savedText;
+      }
+    });
+
+    function ringkasTeks() {
+      const text = document.getElementById("inputText").value.trim();
+      const level = document.getElementById("level").value;
+      const sentences = text.match(/[^.!?]+[.!?]/g);
+
+      localStorage.setItem("inputText", text);
+
+      if (!text) {
+        alert("Silakan masukkan teks terlebih dahulu!");
+        return;
+      }
+
+      if (!sentences || sentences.length < 2) {
+        document.getElementById("output").style.display = "block";
+        document.getElementById("summaryText").innerText = "Teks terlalu pendek untuk diringkas.";
+        return;
+      }
+
+      let count;
+      const total = sentences.length;
+
+      if (level === "short") {
+        count = Math.floor(total * 0.5); 
+      } else {
+        count = Math.floor(total * (0.5 + Math.random() * 0.25)); 
+      }
+
+      const summary = sentences.slice(0, count).join(" ").trim();
+      document.getElementById("summaryText").innerText = summary;
+      document.getElementById("output").style.display = "block";
+    }
+
+    function salinHasil() {
+      const text = document.getElementById("summaryText").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Ringkasan berhasil disalin!");
+      }).catch(() => {
+        alert("Gagal menyalin ringkasan.");
+      });
+    }
+  </script>
+
+</body>
+</html>
