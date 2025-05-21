@@ -175,8 +175,8 @@
     document.getElementById("downloadBtn").addEventListener("click", () => {
       html2canvas(document.getElementById("certificate")).then(canvas => {
         const link = document.createElement('a');
-        link.download = '';
-        link.href = canvas.toDataURL("image/png");
+        link.download = 'sertifikat.jpg';
+        link.href = canvas.toDataURL("imag/pg");
         link.click();
       });
     });
