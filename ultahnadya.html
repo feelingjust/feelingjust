@@ -175,7 +175,7 @@
     document.getElementById("downloadBtn").addEventListener("click", () => {
       html2canvas(document.getElementById("certificate")).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'demo-website-image/IMG_20250522_060554.jpg';
+        link.download = '';
         link.href = canvas.toDataURL("image/png");
         link.click();
       });
