@@ -172,11 +172,11 @@
       typeText();
     };
 
-    document.getElementById("downloadBtn").addEventListener("click", () => {
+    document.getElementById("download").addEventListener("click", () => {
       html2canvas(document.getElementById("certificate")).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'sertifikat.jpg';
-        link.href = canvas.toDataURL("imag/pg");
+        link.download = 'sertifikat-ulang-tahun.png';
+        link.href = canvas.toDataURL("image/png");
         link.click();
       });
     });
