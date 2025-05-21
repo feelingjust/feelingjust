@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>To Nadya</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffd6e8, #ffe8f1);
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #c2185b;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    #message {
+      font-size: 1.3em;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+      border-right: 2px solid #c2185b;
+      display: inline-block;
+      overflow: hidden;
+      min-height: 140px;
+    }
+
+    .certificate {
+      background: #fff;
+      border: 4px double #c2185b;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out 1s forwards;
+      opacity: 0;
+    }
+
+    .certificate h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #c2185b;
+    }
+
+    .certificate p {
+      font-size: 1em;
+      margin: 5px 0;
+    }
+
+    #downloadBtn {
+      margin-top: 20px;
+      background-color: #c2185b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10;
+      position: relative;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      animation: floatUp 7s infinite ease-in;
+      z-index: 0;
+    }
+
+    .balloon:nth-child(1) { left: 5%; animation-delay: 0s; }
+    .balloon:nth-child(2) { left: 25%; animation-delay: 2s; }
+    .balloon:nth-child(3) { left: 45%; animation-delay: 4s; }
+    .balloon:nth-child(4) { left: 65%; animation-delay: 1s; }
+    .balloon:nth-child(5) { left: 85%; animation-delay: 3s; }
+
+    .balloon img {
+      width: 40px;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+    }
+
+    @media screen and (max-width: 480px) {
+      h1 { font-size: 1.6em; }
+      #message { font-size: 1.1em; }
+      .certificate p { font-size: 0.95em; }
+      #downloadBtn { font-size: 0.95em; padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false" onmousedown="return false">
+
+  <div class="container">
+    <h1>🎂HAPPY BIRTHDAY🎂</h1>
+    <p id="message"></p>
+
+    <div class="certificate" id="certificate">
+      <h2 style="font-family: 'Dancing Script', cursive;">Sertifikat<br>Ulang Tahun</h2>
+      <p style="font-family: 'Dancing Script', cursive;">Ini diberikan kepada:</p>
+      <p style="font-family: 'Dancing Script', cursive;"><strong>Nadya Meylani Pashya</strong></p>
+      <p style="font-family: 'Dancing Script', cursive;">Pada hari:</p>
+      <p style="font-family: 'Dancing Script', cursive;"><strong>Selasa 27 Mei 2025</strong></p>
+      <br>
+      <p style="font-family: 'Dancing Script', cursive;">Semoga selalu bahagia, sehat, dan sukses!</p>
+      <p style="margin-top: 30px; font-family: 'Dancing Script', cursive;">Ditandatangani secara digital</p>
+      <p style="font-family: 'Dancing Script', cursive;"><em>Ramah & Damai</em></p>
+    </div>
+
+    <button id="downloadBtn">Download Sertifikat</button>
+  </div>
+
+  <!-- Balon -->
+  <div class="balloon"><img src="https://cdn-icons-png.flaticon.com/512/3460/3460592.png" /></div>
+  <div class="balloon"><img src="https://cdn-icons-png.flaticon.com/512/3460/3460602.png" /></div>
+  <div class="balloon"><img src="https://cdn-icons-png.flaticon.com/512/3460/3460618.png" /></div>
+  <div class="balloon"><img src="https://cdn-icons-png.flaticon.com/512/3460/3460592.png" /></div>
+  <div class="balloon"><img src="https://cdn-icons-png.flaticon.com/512/3460/3460602.png" /></div>
+
+  <!-- html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    const text = `Hai kamu yang spesial,\nSelamat ulang tahun!\nPada Hari, Selasa 27 Mei 2025,\nSemoga kamu tumbuh jadi perempuan yang hebat,\npintar, ceria, dan selalu bahagia!\n\n-kado nya nyusul-`;
+    let i = 0;
+    const speed = 40;
+
+    function typeText() {
+      if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeText, speed);
+      }
+    }
+
+    window.onload = function() {
+      typeText();
+    };
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      html2canvas(document.getElementById("certificate")).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'sertifikat-ulang-tahun.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    });
+  </script>
+</body>
+</html>
