@@ -261,7 +261,7 @@
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(`Layanan ${service} selesai untuk ${user}`)}`);
             showModal(`berhasil dikirim ke ${user}!, harap cek`, true);
             document.getElementById('successAnimation').style.display = 'flex';
-          }, 15000);
+          }, 18000);
         } else showModal('Gagal mengirim permintaan. Silakan coba lagi.', true);
       } catch {
         showModal('Terjadi kesalahan. Periksa koneksi atau refresh halaman.', true);
