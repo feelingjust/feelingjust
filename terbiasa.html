@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Website By Nan</title>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    background: #000;
+    color: #0ff;
+  }
+  #app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: #111;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+  main {
+    flex: 1;
+    padding: 1rem;
+  }
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #0ff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+  }
+  .audio-btn {
+    background: #222;
+    border: 1px solid #555;
+    color: #0ff;
+  }
+  .audio-btn:hover {
+    background: #0ff;
+    color: #000;
+  }
+  nav {
+    display: flex;
+    justify-content: space-around;
+    background: #111;
+    padding: 0.5rem 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: #0ff;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, color 0.3s;
+  }
+  nav button:hover {
+    color: #0ff;
+    transform: scale(1.1);
+  }
+  #lyrics {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 20px 0;
+    min-height: 1.5em;
+  }
+  .popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  .popup-box {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    color: #0ff;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 0 20px #0ff;
+  }
+  .popup-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: #000;
+    color: #0ff;
+  }
+  #telegramForm {
+    background: linear-gradient(135deg, #111, #222);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 25px #00ffff66, 0 0 40px #00ffff33 inset;
+    animation: fadeInUp 0.7s ease;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  #telegramForm input,
+  #telegramForm textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #000;
+    color: #0ff;
+    box-shadow: inset 0 0 5px #0ff5;
+  }
+  #telegramForm button.sendBtn {
+    background: #0ff;
+    color: #000;
+    font-weight: bold;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #telegramForm button.sendBtn:hover {
+    background: #0cc;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="headerTitle">Beranda</header>
+  <main>
+    <section id="homePage" class="page active">
+      <audio id="audio" preload="auto" src="Nathaniel Rivan - Terbiasa.mp3"></audio>
+      <br><br>
+      <div id="lyrics">🎵 Terbiasa - Nathaniel Rivan 🎵</div>
+      <br><br>
+      <center><div id="audioStatus"></div></center>
+      <br>
+      <div style="text-align: center;">
+        <button id="playBtn" class="audio-btn">Play</button>
+        <button id="pauseBtn" class="audio-btn">Pause</button>
+      </div>
+    </section>
+    <section id="messagePage" class="page">
+      <form id="telegramForm">
+        <input type="text" id="name" placeholder="Nama Anda" required />
+        <textarea id="message" placeholder="Tulis pesan di sini..." rows="4" required></textarea>
+        <button type="submit" class="sendBtn">Kirim Pesan</button>
+        <center><div id="status"></div></center>
+        <p><center>Untuk Melihat Respon<br>Bisa Klik > <a href="https://whatsapp.com/channel/0029VbB5UW62Jl8G3Ci9vc3D" style="text-decoration: none; color: red;">BALASAN</a></center></p>
+      </form>
+    </section>
+    <section id="profilePage" class="page">
+      <center>
+      <div id="profileCard">
+        <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Profile Picture" style="width:100px;border-radius:50%;" />
+        <h2>User Client</h2>
+        <p>Informasi Tentang Anda</p>
+        <button onclick="openPopup()">Edit Profile</button>
+      </div>
+      </center>
+    </section>
+  </main>
+  <nav>
+    <button class="tabBtn active" data-target="homePage">Beranda</button>
+    <button class="tabBtn" data-target="messagePage">Pesan</button>
+    <button class="tabBtn" data-target="profilePage">Profile</button>
+  </nav>
+</div>
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <h3>Edit Profil</h3>
+    <input type="text" placeholder="Nama Baru" id="newName">
+    <button onclick="saveProfile()">Simpan</button>
+    <button onclick="closePopup()" style="margin-left:10px;background:#444;color:#fff;">Tutup</button>
+  </div>
+</div>
+<script>
+const tabs = document.querySelectorAll('nav button');
+const pages = document.querySelectorAll('section.page');
+const headerTitle = document.getElementById('headerTitle');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.getAttribute('data-target');
+    document.getElementById(target).classList.add('active');
+    headerTitle.textContent = tab.textContent.trim();
+  });
+});
+
+const lyrics = [
+  // { time: 17, text: "🎵 Terbiasa - Nathaniel Rivan 🎵" },
+  { time: 18, text: "Sungguh hebat diriku" },
+  { time: 26, text: "Menyukai tanpa kata" },
+  { time: 32, text: "Sungguh kuat diriku" },
+  { time: 39, text: "Mampu memandang rasa" },
+  { time: 48, text: "Terus mengagumimu" },
+  { time: 51, text: "Sedangkan ku tau" },
+  { time: 55, text: "Kita tak akan bersama" },
+  { time: 61, text: "🎵" },
+  { time: 65, text: "Mengapa harus dirimu" },
+  { time: 71, text: "Pilihan hatiku" },
+  { time: 75, text: "Dari sekian insan di dunia" },
+  { time: 81, text: "Namun, apalah dayaku" },
+  { time: 87, text: "Melihat dirimu kasih" },
+  { time: 91, text: "Bahagia, walau bahagia tanpaku" },
+  { time: 97, text: "Biar waktu yang menyembuhkan (menyembuhkan)" },
+  { time: 102, text: "Luka dalam hatiku ini" },
+  { time: 105, text: "Meski rasa sayangku (sayangku) takkan" },
+  { time: 109, text: "Berpaling... (oOooOhhh)" },
+  { time: 112, text: "Ku terus mengagumimu" },
+  { time: 117, text: "Sedangkan ku tau (ku tau)" },
+  { time: 121, text: "Kita tak akan bersama (bersama)" },
+  { time: 129, text: "Mengapa harus dirimu" },
+  { time: 134, text: "Pilihan hatiku" },
+  { time: 139, text: "Pilihan hatiku...." },
+  { time: 144, text: "Namun, apalah dayaku (apalah dayaku)" },
+  { time: 148, text: "Melihat dirimu kasih" },
+  { time: 152, text: "Bahagia, walau bahagia tanpaku" },
+  { time: 162, text: "(UuUuuU) Mengapa (WuUuhuu) harus (UuuUu) dirimu" },
+  { time: 165, text: "Pilihan hatiku (HuuUuu, Yeyy)" },
+  { time: 168, text: "Namun, apalah dayaku" },
+  { time: 175, text: "Melihat dirimu Ooo.." },
+  { time: 178, text: "Melihat dirimu kasih" },
+  { time: 184, text: "Bahagia, walau bahagia tanpaku" },
+  { time: 190, text: "<Not Found>" },
+];
+let currentLyric = 0;
+let intervalId;
+const audio = document.getElementById('audio');
+const lyricsDiv = document.getElementById('lyrics');
+const audioStatusDiv = document.getElementById('audioStatus');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+
+function updateLyrics() {
+  const currentTime = audio.currentTime;
+  if (currentLyric < lyrics.length && currentTime >= lyrics[currentLyric].time) {
+    lyricsDiv.textContent = lyrics[currentLyric].text;
+    currentLyric++;
+  }
+}
+
+audio.addEventListener('play', () => {
+  audioStatusDiv.textContent = "Memutar...";
+  intervalId = setInterval(updateLyrics, 500);
+});
+
+audio.addEventListener('pause', () => {
+  audioStatusDiv.textContent = "Berhenti...";
+  clearInterval(intervalId);
+});
+
+audio.addEventListener('ended', () => {
+  clearInterval(intervalId);
+  lyricsDiv.textContent = "🎵 Terbiasa - Nathaniel Rivan 🎵";
+  audioStatusDiv.textContent = "Selesai 🎵\nBy Nan";
+  currentLyric = 0;
+});
+
+playBtn.addEventListener('click', () => audio.play());
+pauseBtn.addEventListener('click', () => audio.pause());
+
+// Telegram Bot Integration
+const telegramForm = document.getElementById('telegramForm');
+const statusDiv = document.getElementById('status');
+const TELEGRAM_BOT_TOKEN = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
+const TELEGRAM_CHAT_ID = '-4627259207';
+
+telegramForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if (!name || !message) {
+    statusDiv.style.color = 'red';
+      statusDiv.textContent = 'Mohon isi semua kolom!';
+    return;
+  }
+  statusDiv.style.color = '#fff';
+    statusDiv.textContent = 'Mengirim pesan...';
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: `\u{1F4AC} Pesan baru\n\nNama : ${name} \nPesan : ${message}`,
+        parse_mode: 'Markdown'
+      })
+    });
+    const result = await response.json();
+    if (result.ok) {
+      statusDiv.style.color = '#0f0';
+          statusDiv.textContent = 'Pesan berhasil dikirim';
+      telegramForm.reset();
+    } else {
+      statusDiv.style.color = 'red';
+          statusDiv.textContent = 'Gagal mengirim pesan';
+    }
+  } catch (error) {
+    statusDiv.style.color = 'red';
+        statusDiv.textContent = 'Terjadi kesalahan jaringan';
+  }
+});
+
+// Popup edit profil
+function openPopup() {
+  document.getElementById('popup').style.display = 'flex';
+}
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+function saveProfile() {
+  const newName = document.getElementById('newName').value;
+  if (newName) {
+    document.querySelector('#profileCard h2').textContent = newName;
+    closePopup();
+  }
+}
+</script>
+</body>
+</html>
