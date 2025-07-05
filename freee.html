@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #1e0036;
+      color: #fff;
+    }
+
+    header {
+      background: #3d006b;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px #00000066;
+      animation: slideDown 1s ease forwards;
+    }
+
+    @keyframes slideDown {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .marquee {
+      background: #6b00b3;
+      color: #fff;
+      padding: 8px 0;
+      font-weight: bold;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: inset 0 -1px 0 #4b0077;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 46s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: #2a0052;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #00000033;
+      margin-bottom: 20px;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #6a00ff33; }
+      50% { box-shadow: 0 0 20px #b84dff88; }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #d5aaff;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: 0.3s ease-in-out;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background-color: #4e008c;
+    }
+
+    input, select {
+      background: #3a0075;
+      color: #fff;
+    }
+
+    button {
+      background: #a74dfc;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #c17aff;
+    }
+
+    .popup {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #3d006b;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 999;
+      transition: 0.3s ease-in-out;
+      animation: bounceIn 0.8s ease;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      color: #ffdeff;
+    }
+
+    .layanan-icon {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .layanan-icon img {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+    }
+
+    #hargaBox {
+      background: #420070;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    footer {
+      text-align: center;
+      background: #3d006b;
+      padding: 20px;
+      margin-top: 30px;
+      color: #ccc;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="marquee"><span>| SESEORANG BARU SAJA MELAKUKAN LAYANAN FOLLOWERS INSTAGRAM | SESEORANG BARU SAJA MELAKUKAN LAYANAN TIKTOK VIEWS | SESEORANG BARU SAJA MELAKUKAN LAYANAN INSTAGRAM LIKES | SESEORANG BARU SAJA MELAKUKAN LAYANAN CHANNEL WHATSAPP | SESEORANG BARU SAJA MELAKUKAN LAYANAN FOLLOWERS INSTAGRAM | SESEORANG BARU SAJA MELAKUKAN LAYANAN TIKTOK VIEWS | SESEORANG BARU SAJA MELAKUKAN LAYANAN INSTAGRAM LIKES | SESEORANG BARU SAJA MELAKUKAN LAYANAN CHANNEL WHATSAPP |</span></div>
+<div class="popup" id="popup">✅ Pesanan berhasil dikirim!</div>
+  <div class="container">
+    <div class="card">
+      <h2>Form Pemesanan</h2>
+
+      <div class="layanan-icon" id="iconDisplay">
+        <img src="https://img.icons8.com/color/48/new.png" alt="Icon">
+        <span id="layananNama">Pilih Layanan Dulu</span>
+      </div>
+
+      <div id="hargaBox">💸 Belum Di Pilih</div>
+
+      <form id="orderForm">
+        <label for="layanan">Pilih Layanan</label>
+        <select id="layanan" required>
+          <option value="" disabled selected>Layanan</option>
+          <option value="channelwa">Channel WhatsApp</option>
+          <option value="instagramfoll">Instagram Followers</option>
+          <option value="instagramlikes">Instagram Likes</option>
+          <option value="tiktokfoll">TikTok Followers</option>
+          <option value="tiktokviews">TikTok Views</option>
+          <option value="youtubesubs">YouTube Subscribers</option>
+        </select>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" required placeholder="Masukkan Link">
+
+        <label for="jumlah">Jumlah</label>
+        <input type="number" id="jumlah" required placeholder="Sesuaikan">
+
+        <button type="submit">Kirim Pesanan</button>
+        <div class="loading" id="loading">⏳ Mengirim...</div>
+      </form>
+    </div>
+    
+    <h4>NOTE : PAHAMI LAH TANDA X DAN ✓<br> X = TIDAK ADA / TIDAK BEKERJA <br> ✓ = ADA / BEKERJA</h4>
+
+    <div class="card">
+      <h2>Live Chat</h2>
+      <div id="chatBox" style="height: 200px; overflow-y: auto; background: #3a0075; padding: 10px; border-radius: 10px; margin-bottom: 10px;">      FITUR INI MASIH DALAM PENGEMBANGAN</div>
+      <form id="chat1Form">
+        <input type="text" id="chatInput" placeholder="Ketik pesan kamu..."  />
+        <button type="submit">Kirim</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 By NanTzy|Hng</footer>
+
+  <script>
+    const layananData = {
+      instagramfoll: {
+        nama: "Instagram Followers (X)",
+        harga: "Rp0 / 10 followers",
+        icon: "https://img.icons8.com/color/48/instagram-new.png"
+      },
+      instagramlikes: {
+        nama: "Instagram Likes (✓)",
+        harga: "Rp0 / 10 likes",
+        icon: "https://img.icons8.com/color/48/hearts.png"
+      },
+      tiktokfoll: {
+        nama: "TikTok Followers (X)",
+        harga: "Rp0 / 10 followers",
+        icon: "https://img.icons8.com/color/48/tiktok.png"
+      },
+      tiktokviews: {
+        nama: "TikTok Views (✓) Sesuaikan {1000 - 3000}",
+        harga: "Rp0 / 1000 views",
+        icon: "https://img.icons8.com/color/48/visible.png"
+      },
+      youtubesubs: {
+        nama: "YouTube Subscribers (X)",
+        harga: "Rp0 / 100 subs",
+        icon: "https://img.icons8.com/color/48/youtube-play.png"
+      },
+      channelwa: {
+        nama: "Channel Whatsapp (✓) Sesuaikan {10 - 15}",
+        harga: "Rp0 / 10 pengikut",
+        icon: "https://img.icons8.com/color/48/whatsapp.png"
+      }
+    };
+
+    const form = document.getElementById('orderForm');
+    const popup = document.getElementById('popup');
+    const loading = document.getElementById('loading');
+    const layanan = document.getElementById('layanan');
+    const iconImg = document.querySelector('#iconDisplay img');
+    const iconText = document.getElementById('layananNama');
+    const hargaBox = document.getElementById('hargaBox');
+
+    layanan.addEventListener('change', function() {
+      const selected = layanan.value;
+      iconImg.src = layananData[selected].icon;
+      iconText.textContent = layananData[selected].nama;
+      hargaBox.textContent = `💸 Harga: ${layananData[selected].harga}`;
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      loading.style.display = 'block';
+
+      const selected = layanan.value;
+      const username = document.getElementById('username').value;
+      const jumlah = document.getElementById('jumlah').value;
+
+      const token = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
+      const chatId = '-4627259207';
+      const message = `\uD83D\uDED2 *Pesanan Masuk!*\n\n\uD83D\uDCE6 Layanan: ${layananData[selected].nama}\n\uD83D\uDC64 Username: ${username}\n\uD83D\uDD22 Jumlah: ${jumlah}\n\uD83D\uDCB8 Harga: ${layananData[selected].harga}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        })
+      })
+      .then(res => {
+        loading.style.display = 'none';
+        if (res.ok) {
+          popup.classList.add('show');
+          setTimeout(() => popup.classList.remove('show'), 3000);
+          form.reset();
+        } else {
+          alert("Gagal");
+        }
+      })
+      .catch(err => {
+        loading.style.display = 'none';
+        alert("Terjadi error: " + err);
+      });
+    });
+
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatBox = document.getElementById('chatBox');
+
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const pesan = chatInput.value.trim();
+      if (pesan === "") return;
+
+      const bubble = document.createElement('div');
+      bubble.textContent = "\uD83D\uDC64 Kamu: " + pesan;
+      bubble.style.background = "#6a00b5";
+      bubble.style.padding = "8px 12px";
+      bubble.style.margin = "5px 0";
+      bubble.style.borderRadius = "8px";
+      chatBox.appendChild(bubble);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const token = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
+      const chatId = '-4627259207';
+      const message = `\uD83D\uDCAC *Livechat Baru*\n\n\uD83D\uDC64 Pengunjung: ${pesan}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        })
+      });
+
+      chatInput.value = "";
+    });
+    
+    function playSound() {
+      const audio = new Audio('https://cdn.pixabay.com/download/audio/2023/03/06/audio_63e7c9bb8e.mp3?filename=pop-up-alert-141856.mp3');
+      audio.play();
+    }
+    function showPopup() {
+      document.getElementById("popup").classList.add("show");
+      playSound();
+      setTimeout(() => document.getElementById("popup").classList.remove("show"), 3000);
+    }
+  </script>
+</body>
+</html>
