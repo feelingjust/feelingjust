@@ -229,8 +229,8 @@
 
     <div class="card">
       <h2>Live Chat</h2>
-      <div id="chatBox" style="height: 200px; overflow-y: auto; background: #3a0075; padding: 10px; border-radius: 10px; margin-bottom: 10px;">      FITUR INI MASIH DALAM PENGEMBANGAN</div>
-      <form id="chat1Form">
+      <div id="chatBox" style="height: 200px; overflow-y: auto; background: #3a0075; padding: 10px; border-radius: 10px; margin-bottom: 10px;"></div>
+      <form id="chatForm">
         <input type="text" id="chatInput" placeholder="Ketik pesan kamu..."  />
         <button type="submit">Kirim</button>
       </form>
@@ -336,6 +336,7 @@
 
       const bubble = document.createElement('div');
       bubble.textContent = "\uD83D\uDC64 Kamu: " + pesan;
+      bubble.textContent = "API error ; 824 7";
       bubble.style.background = "#6a00b5";
       bubble.style.padding = "8px 12px";
       bubble.style.margin = "5px 0";
@@ -345,7 +346,7 @@
 
       const token = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
       const chatId = '-4627259207';
-      const message = `\uD83D\uDCAC *Livechat Baru*\n\n\uD83D\uDC64 Pengunjung: ${pesan}`;
+      const message = `\uD83D\uDCAC *Livechat Baru*\n\n\uD83D\uDC64 Pesan: ${pesan}`;
 
       fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
