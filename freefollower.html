@@ -257,7 +257,44 @@
   color: #990000;
 }
 
-    
+    .custom-select-wrapper {
+      position: relative;
+      user-select: none;
+      margin-bottom: 15px;
+    }
+    .custom-select {
+      background: linear-gradient(135deg, #4b0082, #420070);
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 0 10px #bb66ff88;
+    }
+    .custom-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: #2a0052;
+      border-radius: 8px;
+      margin-top: 5px;
+      z-index: 10;
+      box-shadow: 0 0 12px #bb66ff77;
+    }
+    .custom-options .option {
+      padding: 12px;
+      cursor: pointer;
+      color: #fff;
+      border-bottom: 1px solid #3a0075;
+    }
+    .custom-options .option:last-child {
+      border-bottom: none;
+    }
+    .custom-options .option:hover {
+      background: #5f00c0;
+    }
+
     #introOverlay {
       position: fixed;
       top: 0; left: 0;
@@ -359,18 +396,22 @@
 
       <div id="hargaBox">💸 Belum Di Pilih</div>
 
-      <form id="orderForm">
-        <label for="layanan">Pilih Layanan</label>
-        <select id="layanan" required>
-          <option value="" disabled selected>Layanan</option>
-          <option value="channelwa">Channel WhatsApp</option>
-          <option value="instagramfoll">Instagram Followers</option>
-          <option value="instagramlikes">Instagram Likes</option>
-          <option value="tiktokfoll">TikTok Followers</option>
-          <option value="tiktoklikes">TikTok Likes</option>
-          <option value="tiktokviews">TikTok Views</option>
-          <option value="youtubesubs">YouTube Subscribers</option>
-        </select>
+      <form id="orderForm"><label for="layanan">Pilih Layanan</label>
+  <div class="custom-select-wrapper">
+    <div class="custom-select" id="customSelect">Layanan</div>
+    <div class="custom-options" id="customOptions">
+      <div class="option" data-value="channelwa">Channel WhatsApp</div>
+      <div class="option" data-value="instagramfoll">Instagram Followers</div>
+      <div class="option" data-value="instagramlikes">Instagram Likes</div>
+      <div class="option" data-value="tiktokfoll">TikTok Followers</div>
+      <div class="option" data-value="tiktoklikes">TikTok Likes</div>
+      <div class="option" data-value="tiktoksave">TikTok Save</div>
+      <div class="option" data-value="tiktokshare">TikTok Share</div>
+      <div class="option" data-value="tiktokviews">TikTok Views</div>
+      <div class="option" data-value="youtubesubs">YouTube Subscribers</div>
+    </div>
+  </div>
+  <input type="hidden" name="layanan" id="layanan" required />
         
         <div class="warning-box" style="display: none;">
         ⚠️ Peringatan layanan akan muncul di sini sesuai pilihan.
@@ -462,6 +503,16 @@
         harga: "Rp0 / 10 likes",
         icon: "https://img.icons8.com/color/48/hearts.png"
       },
+      tiktoksave: {
+        nama: "TikTok Save (✓)",
+        harga: "Rp0 / 10 save",
+        icon: "https://img.icons8.com/color/48/save.png"
+      },
+      tiktokshare: {
+        nama: "TikTok Share (✓)",
+        harga: "Rp0 / 10 Share",
+        icon: "https://img.icons8.com/color/48/share.png"
+      },
       tiktokviews: {
         nama: "TikTok Views (✓) Sesuaikan {1000 - 3000}",
         harga: "Rp0 / 1000 views",
@@ -507,6 +558,8 @@
       instagramlikes: "Jumlah Order Selesai Rata-Rata = 196 .Kecepatan Rata-Rata = 18 Jam 35 Menit. Terakhir Kali Dicek 4 Jam 5 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
       tiktokfoll: "Jumlah Order Selesai Rata-Rata = 469 .Kecepatan Rata-Rata = 11 Jam 5 Menit. Terakhir Kali Dicek 5 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
       tiktoklikes: "Jumlah Order Selesai Rata-Rata = 1167 .Kecepatan Rata-Rata = 3 Jam 9 Menit. Terakhir Kali Dicek 26 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
+      tiktoksave: "Jumlah Order Selesai Rata-Rata = 617 .Kecepatan Rata-Rata = 9 Menit. Terakhir Kali Dicek 8 Jam 25 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
+      tiktokshare: "Jumlah Order Selesai Rata-Rata = 230 .Kecepatan Rata-Rata = 1 Jam 17 Menit. Terakhir Kali Dicek 3 Jam 7 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
       tiktokviews: "Jumlah Order Selesai Rata-Rata = 5372 .Kecepatan Rata-Rata = 54 Menit. Terakhir Kali Dicek 15 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
       youtubesubs: "Jumlah Order Selesai Rata-Rata = 10 .Kecepatan Rata-Rata = 6 Jam 45 Menit. Terakhir Kali Dicek 3 Hari 16 Jam 39 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU",
       channelwa: "Jumlah Order Selesai Rata-Rata = 10 .Kecepatan Rata-Rata = 4 Menit. Terakhir Kali Dicek 13 Hari 9 Jam 39 Menit yang Lalu KECEPATAN RATA-RATA BISA LEBIH CEPAT ATAU BISA LEBIH LAMBAT TERGANTUNG BANYAKNYA ORDERAN DAN KEADAAN SERVER SAAT ITU"
@@ -599,6 +652,33 @@
       const overlay = document.getElementById('introOverlay');
       setTimeout(() => overlay.style.display = 'none', 4000);
       });
+      
+    const customSelect = document.getElementById("customSelect");
+    const customOptions = document.getElementById("customOptions");
+    const hiddenInput = document.getElementById("layanan");
+
+    customSelect.addEventListener("click", () => {
+      customOptions.style.display = customOptions.style.display === "block" ? "none" : "block";
+    });
+
+    document.querySelectorAll(".custom-options .option").forEach(option => {
+      option.addEventListener("click", () => {
+        const selectedValue = option.getAttribute("data-value");
+        const selectedText = option.textContent;
+        customSelect.textContent = selectedText;
+        hiddenInput.value = selectedValue;
+        customOptions.style.display = "none";
+
+        const changeEvent = new Event('change');
+        hiddenInput.dispatchEvent(changeEvent);
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!customSelect.contains(e.target) && !customOptions.contains(e.target)) {
+        customOptions.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
