@@ -483,69 +483,78 @@
     elJumlah.addEventListener('input', clampQty);
     elJumlah.addEventListener('blur', clampQty);
     
-    // ===== live chat (update biar 2 arah) =====
-    function appendChat(text, who='me'){
-      const b = document.createElement('div');
-      b.className = 'bubble ' + (who === 'me' ? 'me' : 'other');
-      b.textContent = text;
-      chatBox.appendChild(b);
-      chatBox.scrollTop = chatBox.scrollHeight;
+let userId = localStorage.getItem("chatUserId");
+if(!userId){
+  userId = "U" + Date.now() + Math.floor(Math.random()*1000);
+  localStorage.setItem("chatUserId", userId);
+}
+
+function appendChat(text, who='me'){
+  const b = document.createElement('div');
+  b.className = 'bubble ' + (who === 'me' ? 'me' : 'other');
+  b.textContent = text;
+  chatBox.appendChild(b);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendChat(){
+  const text = (chatInput.value || '').trim();
+  if(!text) return;
+
+  appendChat('Kamu: ' + text, 'me');
+
+  if(TELEGRAM_TOKEN && TELEGRAM_CHATID){
+    try {
+      // kirim pesan dengan ID user (satu baris saja)
+      const msg = `[${userId}]\n\n\n💬 Livechat\n\nPesan: ${text}`;
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({chat_id: TELEGRAM_CHATID, text: msg})
+      });
+    } catch(e){
+      console.warn('Gagal kirim livechat', e);
     }
+  }
+  chatInput.value = '';
+}
 
-    chatSend.addEventListener('click', async ()=>{
-      const text = (chatInput.value || '').trim();
-      if(!text) return;
+chatSend.addEventListener('click', sendChat);
+chatInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    sendChat();
+  }
+});
 
-      appendChat('Kamu: ' + text, 'me');
+// ===== Ambil balasan admin dari Telegram (polling) =====
+let lastUpdateId = 0;
 
-      if(TELEGRAM_TOKEN && TELEGRAM_CHATID){
-        try {
-          const msg = `💬 *Livechat*\n\nPesan: ${text}`;
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({chat_id: TELEGRAM_CHATID, text: msg, parse_mode: 'Markdown'})
-          });
-        } catch(e){
-          console.warn('Gagal kirim livechat', e);
+async function getUpdates(){
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?offset=${lastUpdateId+1}`);
+    const data = await res.json();
+    if(data.result){
+      data.result.forEach(update=>{
+        lastUpdateId = update.update_id;
+        if(update.message && update.message.chat && update.message.chat.id.toString() === TELEGRAM_CHATID.toString()){
+          const text = update.message.text;
+
+          // hanya tampilkan pesan admin yang ada ID user
+          if(text && text.startsWith(`[${userId}]`)){
+            const cleanText = text.replace(`[${userId}]`, "").trim();
+            appendChat("Admin: " + cleanText, "other");
+          }
         }
-      }
-      chatInput.value = '';
-    });
-
-    chatInput.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        chatSend.click();
-      }
-    });
-
-    // ===== Ambil balasan admin dari Telegram (polling) =====
-    let lastUpdateId = 0;
-
-    async function getUpdates(){
-      try {
-        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?offset=${lastUpdateId+1}`);
-        const data = await res.json();
-        if(data.result){
-          data.result.forEach(update=>{
-            lastUpdateId = update.update_id;
-            if(update.message && update.message.chat && update.message.chat.id.toString() === TELEGRAM_CHATID.toString()){
-              const text = update.message.text;
-              // jangan tampilkan echo dari user sendiri
-              if(text && !text.startsWith("💬 *Livechat*")){
-                appendChat("Admin: " + text, "other");
-              }
-            }
-          });
-        }
-      } catch(err){
-        console.error("Gagal ambil updates:", err);
-      }
+      });
     }
+  } catch(err){
+    console.error("Gagal ambil updates:", err);
+  }
+}
 
-    // polling tiap 2 detik
-    setInterval(getUpdates, 2000);
+// polling tiap 2 detik
+setInterval(getUpdates, 2000);
 
     // ===== ah ah enak =====
     const TELEGRAM_TOKEN = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
@@ -596,25 +605,6 @@
         else{ showPopup('⚠️ Pesanan diterima (lokal) — gagal kirim.'); bump(); console.warn('not response not ok:', data); }
       }catch(err){ alert('Gagal mengirim ' + (err && err.message ? err.message : err)); }
     });
-
-    // ===== live chat (dummy) =====
-    function appendChat(text, who='me'){
-      const b = document.createElement('div'); b.className = 'bubble ' + (who === 'me' ? 'me' : 'other'); b.textContent = text; chatBox.appendChild(b); chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    chatSend.addEventListener('click', async ()=>{
-      const text = (chatInput.value || '').trim(); if(!text) return; appendChat('Kamu: ' + text, 'me');
-      if(TELEGRAM_TOKEN !== 'NANGANTENG' && TELEGRAM_CHATID !== 'SUKAOLINE'){
-        try{ const msg = `💬 *Livechat*
-
-Pesan: ${text}`; await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({chat_id: TELEGRAM_CHATID, text: msg, parse_mode: 'Markdown'}) }); }
-        catch(e){ console.warn('Gagal kirim livechat', e); }
-      }
-      chatInput.value = '';
-    });
-
-    chatInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); chatSend.click(); } });
-    elTarget.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); elSubmit.click(); } });
 
   </script>
 </body>
