@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hubungi Kami • Live Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin:0;
+      font-family:'Poppins', sans-serif;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(-45deg,#0d0d1a,#1a0033,#0a0a23,#11002a);
+      background-size:400% 400%;
+      animation:gradientMove 15s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    .chat-container {
+      width:100%;
+      max-width:420px;
+      height:600px;
+      background:#1a1a2e;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      animation:fadeInUp .8s ease;
+    }
+    @keyframes fadeInUp {
+      from{transform:translateY(50px);opacity:0;}
+      to{transform:translateY(0);opacity:1;}
+    }
+
+    .chat-header {
+      background:linear-gradient(90deg,#6a11cb,#2575fc);
+      color:#fff;
+      padding:15px;
+      text-align:center;
+      font-weight:600;
+      font-size:18px;
+      letter-spacing:.5px;
+      box-shadow:0 2px 10px rgba(0,0,0,.5);
+    }
+
+    .chat-body {
+      flex:1;
+      padding:15px;
+      overflow-y:auto;
+      background:#0f0f1f;
+    }
+
+    .bubble {
+      margin:8px 0;
+      max-width:75%;
+      padding:10px 14px;
+      border-radius:14px;
+      word-wrap:break-word;
+      opacity:0;
+      transform:translateY(15px);
+      animation:bubbleIn .3s forwards;
+      box-shadow:0 4px 10px rgba(0,0,0,.3);
+    }
+    .bubble.me {
+      background:#2575fc;
+      color:#fff;
+      border-bottom-right-radius:0;
+      margin-left:auto;
+    }
+    .bubble.other {
+      background:#6a11cb;
+      color:#fff;
+      border-bottom-left-radius:0;
+      margin-right:auto;
+    }
+    @keyframes bubbleIn {
+      to {opacity:1;transform:translateY(0);}
+    }
+
+    .chat-footer {
+      display:flex;
+      padding:10px;
+      background:#1a1a2e;
+      border-top:1px solid #333;
+    }
+    .chat-footer input {
+      flex:1;
+      padding:10px 14px;
+      border-radius:20px;
+      border:1px solid #444;
+      outline:none;
+      font-size:14px;
+      background:#0f0f1f;
+      color:#fff;
+      transition:.3s;
+    }
+    .chat-footer input:focus {
+      border-color:#6a11cb;
+      box-shadow:0 0 5px rgba(106,17,203,.5);
+    }
+    .chat-footer button {
+      background:#6a11cb;
+      border:none;
+      color:#fff;
+      padding:10px 15px;
+      margin-left:8px;
+      border-radius:50%;
+      cursor:pointer;
+      transition:.3s;
+      box-shadow:0 4px 10px rgba(0,0,0,.4);
+    }
+    .chat-footer button:hover {background:#2575fc;}
+
+    /* loader */
+    .loader {
+      display:inline-block;
+      width:16px; height:16px;
+      border:2px solid #fff4;
+      border-top:2px solid #fff;
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      vertical-align:middle;
+      margin-left:6px;
+    }
+    @keyframes spin {100%{transform:rotate(360deg);}}
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">💬 Hubungi Kami</div>
+    <div class="chat-body" id="chatBody">
+      <div class="bubble other">Admin: Halo! Ada yang bisa kami bantu? 😊</div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="chatInput" placeholder="Ketik pesan..." />
+      <button id="chatSend">➤</button>
+    </div>
+  </div>
+
+<script>
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
+
+  // ====== Ganti token & chatID dengan punyamu ======
+  const TELEGRAM_TOKEN = "8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k";
+  const TELEGRAM_CHATID = "-4627259207";
+
+  // buat userId unik
+  let userId = localStorage.getItem("chatUserId");
+  if(!userId){
+    userId = "U" + Date.now() + Math.floor(Math.random()*1000);
+    localStorage.setItem("chatUserId", userId);
+  }
+
+  function appendChat(text, who='me'){
+    const b = document.createElement('div');
+    b.className = 'bubble ' + (who==='me'?'me':'other');
+    b.textContent = text;
+    chatBody.appendChild(b);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  let sendingBubble = null;
+  async function sendChat(){
+    const text = chatInput.value.trim();
+    if(!text) return;
+    appendChat("Kamu: " + text, "me");
+
+    // bubble loading
+    sendingBubble = document.createElement("div");
+    sendingBubble.className = "bubble other";
+    sendingBubble.innerHTML = '⏳ Menunggu Balasan... <span class="loader"></span>';
+    chatBody.appendChild(sendingBubble);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    try {
+      const msg = `[${userId}] ${text}`;
+      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id: TELEGRAM_CHATID, text:msg})
+      });
+      const data = await res.json();
+      if(data.ok && sendingBubble){ sendingBubble.remove(); sendingBubble=null; }
+      else if(sendingBubble){ sendingBubble.textContent="⚠️ Gagal terkirim"; sendingBubble=null; }
+    } catch(e){
+      if(sendingBubble){ sendingBubble.textContent="⚠️ Error koneksi"; sendingBubble=null; }
+      console.error(e);
+    }
+    chatInput.value="";
+  }
+
+  chatSend.addEventListener("click", sendChat);
+  chatInput.addEventListener("keydown", e=>{
+    if(e.key==="Enter"){e.preventDefault();sendChat();}
+  });
+
+  // polling balasan admin
+  let lastUpdateId=0;
+  async function getUpdates(){
+    try {
+      const res=await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?offset=${lastUpdateId+1}`);
+      const data=await res.json();
+      if(data.result){
+        data.result.forEach(up=>{
+          lastUpdateId=up.update_id;
+          if(up.message && up.message.chat.id.toString()===TELEGRAM_CHATID.toString()){
+            const text=up.message.text;
+            if(text && text.startsWith(`[${userId}]`)){
+              const clean=text.replace(`[${userId}]`,"").trim();
+              appendChat("Admin: "+clean,"other");
+            }
+          }
+        });
+      }
+    }catch(err){console.error(err);}
+  }
+  setInterval(getUpdates,2000);
+</script>
+</body>
+</html>
