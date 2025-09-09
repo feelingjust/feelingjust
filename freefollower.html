@@ -440,11 +440,6 @@
     const chatBox = document.getElementById('chatBox');
     const chatInput = document.getElementById('chatInput');
     const chatSend = document.getElementById('chatSend');
-    
-    const accounts = [
-      {username:"admin",password:"nanownerkuk"},
-      {username:"samuel.tel",password:"samuel123"}
-    ];
 
     function doLogin(){
       const user=document.getElementById('username');
@@ -711,10 +706,6 @@ async function getUpdates(){
 // polling tiap 2 detik
 setInterval(getUpdates, 2000);
 
-    // ===== ah ah enak =====
-    const TELEGRAM_TOKEN = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
-    const TELEGRAM_CHATID = '-4627259207';
-
     // ===== popup + sound =====
     function playSound(){
       try{ const audio = new Audio('https://cdn.pixabay.com/download/audio/2023/03/06/audio_63e7c9bb8e.mp3?filename=pop-up-alert-141856.mp3'); audio.volume = 0.9; audio.play().catch(()=>{}); }catch(e){}
@@ -732,17 +723,6 @@ setInterval(getUpdates, 2000);
       if(!svc){ return alert('Pilih layanan terlebih dahulu.'); }
       if(!target){ return alert('Isi username/link target.'); }
       if(!(jumlah >= parseInt(elJumlah.min||10,10) && jumlah <= parseInt(elJumlah.max||100000,10))){ return alert('Jumlah harus antara ' + elJumlah.min + '–' + elJumlah.max + '.'); }
-
-      const message = `✅ *Pesanan Gratis Baru*
-
-` +
-                      `📦 Layanan: ${svc ? svc.name : ''}
-` +
-                      `👤 Target: ${target}
-` +
-                      `🔢 Jumlah: ${jumlah}
-` +
-                      `💰 Status: GRATIS (Rp0)`;
 
       // ah ah enak
       if(TELEGRAM_TOKEN === 'NANGANTENG' || TELEGRAM_CHATID === 'SUKAOLINE'){
@@ -762,5 +742,6 @@ setInterval(getUpdates, 2000);
     });
 
   </script>
+  <script src="assets/js/Panks.js"></script>
 </body>
 </html>
