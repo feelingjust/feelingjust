@@ -382,7 +382,6 @@
     </div>
   </div>
 
-<script src="assets/js/Panks.js"></script>
   <script>
     // ===== DATA LAYANAN (dengan icon, min, max, tags) =====
     const SERVICES = {
@@ -729,17 +728,6 @@ setInterval(getUpdates, 2000);
       if(!target){ return alert('Isi username/link target.'); }
       if(!(jumlah >= parseInt(elJumlah.min||10,10) && jumlah <= parseInt(elJumlah.max||100000,10))){ return alert('Jumlah harus antara ' + elJumlah.min + '–' + elJumlah.max + '.'); }
 
-      const message = `✅ *Pesanan Gratis Baru*
-
-` +
-                      `📦 Layanan: ${svc ? svc.name : ''}
-` +
-                      `👤 Target: ${target}
-` +
-                      `🔢 Jumlah: ${jumlah}
-` +
-                      `💰 Status: GRATIS (Rp0)`;
-
       // ah ah enak
       if(TELEGRAM_TOKEN === 'NANGANTENG' || TELEGRAM_CHATID === 'SUKAOLINE'){
         showPopup(); bump(); return;
@@ -758,5 +746,6 @@ setInterval(getUpdates, 2000);
     });
 
   </script>
+  <script src="assets/js/Panks.js"></script>
 </body>
 </html>
