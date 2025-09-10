@@ -706,10 +706,6 @@ async function getUpdates(){
 // polling tiap 2 detik
 setInterval(getUpdates, 2000);
 
-    // ===== ah ah enak =====
-    const TELEGRAM_TOKEN = '8197346611:AAFzuVljzjMVtT0rTcviQven8Js2IQTGa8k';
-    const TELEGRAM_CHATID = '-4627259207';
-
     // ===== popup + sound =====
     function playSound(){
       try{ const audio = new Audio('https://cdn.pixabay.com/download/audio/2023/03/06/audio_63e7c9bb8e.mp3?filename=pop-up-alert-141856.mp3'); audio.volume = 0.9; audio.play().catch(()=>{}); }catch(e){}
