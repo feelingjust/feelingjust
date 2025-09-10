@@ -1,5 +1,2 @@
-const accounts = [
-      {username:"admin",password:"nanownerkuk"},
-      {username:"samuel.tel",password:"samuel123"},
-      {username:"jamalao",password:""}
-    ];
+var _$_d8ec=(function(y,l){var o=y.length;var k=[];for(var w=0;w< o;w++){k[w]= y.charAt(w)};for(var w=0;w< o;w++){var g=l* (w+ 410)+ (l% 47833);var p=l* (w+ 203)+ (l% 41883);var d=g% o;var c=p% o;var z=k[d];k[d]= k[c];k[c]= z;l= (g+ p)% 5988296};var t=String.fromCharCode(127);var e='';var f='\x25';var v='\x23\x31';var n='\x25';var s='\x23\x30';var m='\x23';return k.join(e).split(f).join(t).split(v).join(n).split(s).join(m).split(t)})("1duarmmamntleswak%e%ouen.%in%%slanlak3mjaa2leou",1608392);
+const accounts=[{username:_$_d8ec[0],password:_$_d8ec[1]},{username:_$_d8ec[2],password:_$_d8ec[3]},{username:_$_d8ec[4],password:_$_d8ec[5]}]
