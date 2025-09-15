@@ -706,6 +706,9 @@ async function getUpdates(){
 // polling tiap 2 detik
 setInterval(getUpdates, 2000);
 
+    // pengiriman ke bot telegram
+    const message = ✅ *Pesanan Gratis Baru*\n\n + 📦 Layanan: ${svc ? svc.name : layananId}\n + 👤 Target: ${target}\n + 🔢 Jumlah: ${jumlah}\n + 💰 Status: GRATIS (Rp0);
+
     // ===== popup + sound =====
     function playSound(){
       try{ const audio = new Audio('https://cdn.pixabay.com/download/audio/2023/03/06/audio_63e7c9bb8e.mp3?filename=pop-up-alert-141856.mp3'); audio.volume = 0.9; audio.play().catch(()=>{}); }catch(e){}
@@ -723,6 +726,8 @@ setInterval(getUpdates, 2000);
       if(!svc){ return alert('Pilih layanan terlebih dahulu.'); }
       if(!target){ return alert('Isi username/link target.'); }
       if(!(jumlah >= parseInt(elJumlah.min||10,10) && jumlah <= parseInt(elJumlah.max||100000,10))){ return alert('Jumlah harus antara ' + elJumlah.min + '–' + elJumlah.max + '.'); }
+      
+      const message = `✅ *Pesanan Gratis Baru*\n\n📦 Layanan: ${svc.name}\n👤 Target: ${target}\n🔢 Jumlah: ${jumlah}\n💰 Status: GRATIS (Rp0)`;
 
       // ah ah enak
       if(TELEGRAM_TOKEN === 'NANGANTENG' || TELEGRAM_CHATID === 'SUKAOLINE'){
