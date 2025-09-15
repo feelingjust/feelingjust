@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1.0">
+  <title>Tools Serba Guna</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com"
+  crossorigin="">
+  <link href=
+  "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
+  rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #00c6ff;
+      --secondary-color: #0072ff;
+      --bg-color: #0d0d0d;
+      --container-bg: rgba(20, 20, 20, 0.5);
+      --border-color: #0072ff;
+      --text-color: #eee;
+    }
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 50px 20px;
+    }
+    /* Animasi Latar Belakang */
+    .particle-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
+    }
+    .particle {
+      position: absolute;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
+      opacity: 0;
+      box-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--secondary-color);
+      animation: sparkle 20s infinite ease-in-out;
+    }
+    @keyframes sparkle {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.5); opacity: 0; }
+    }
+    .hologram-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><pattern id="p" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M0 0h50v50H0zM25 0v25H0z" fill="rgba(0,198,255,0.05)"/></pattern></defs><rect width="100%" height="100%" fill="url(#p)"/></svg>') repeat;
+      mix-blend-mode: overlay;
+      opacity: 0.5;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px var(--secondary-color), 0 0 30px var(--primary-color);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--primary-color); }
+      to { text-shadow: 0 0 20px var(--secondary-color), 0 0 40px var(--primary-color); }
+    }
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid rgba(0, 150, 255, 0.3);
+      box-shadow: 0 0 50px rgba(0, 150, 255, 0.2), inset 0 0 20px rgba(0, 150, 255, 0.1);
+      position: relative;
+      z-index: 1;
+      animation: fade-in 1.5s ease-out;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .input-group, .feature-selection {
+      margin-bottom: 20px;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      font-size: 1rem;
+      outline: none;
+      background: #111;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    select:focus, input:focus {
+      border-color: #fff;
+      box-shadow: 0 0 10px var(--primary-color);
+    }
+    button {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1rem;
+      border: none;
+      box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4);
+    }
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 150, 255, 0.6);
+    }
+    button:disabled {
+      background: #333;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .loader {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 25px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .result {
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .result-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: clamp(150px, 40vw, 250px);
+    }
+    .result-item img, .result-item video {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 150, 255, 0.5);
+      border: 2px solid var(--primary-color);
+      transition: transform 0.3s ease;
+      margin-bottom: 10px;
+    }
+    .result-item img:hover, .result-item video:hover {
+      transform: scale(1.02);
+    }
+    .download-btn {
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+    }
+    pre {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      overflow-x: auto;
+      text-align: left;
+      border: 1px solid var(--secondary-color);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    .hidden {
+      display: none;
+    }
+    .formatted-output {
+        text-align: left;
+        padding: 20px;
+        background: #1a1a1a;
+        border-radius: 15px;
+        width: 100%;
+    }
+    .formatted-output h3 {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 5px;
+        margin-top: 0;
+    }
+    .formatted-output p {
+        margin: 5px 0;
+    }
+    .formatted-output strong {
+        color: var(--secondary-color);
+    }
+    .skiplink-result a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .skiplink-result a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="particle-bg"></div>
+  <div class="hologram-effect"></div>
+  <h1>✨Tools  Serba Guna✨</h1>
+  <div class="container">
+    <div class="feature-selection">
+      <select id="feature" onchange="toggleStyleInput()">
+        <option value="">
+          Pilih Fitur...
+        </option>
+        <optgroup label="AI Image">
+          <option value="flux">
+            Flux
+          </option>
+          <option value="stabilityai">
+            StabilityAI
+          </option>
+          <option value="stable-diffusion">
+            Stable Diffusion
+          </option>
+          <option value="faceswap">
+            Faceswap
+          </option>
+          <option value="text2imgnfws">
+            Text To Image (NSFW)
+          </option>
+          <option value="magicstudio">
+            Magic Studio
+          </option>
+        </optgroup>
+        <optgroup label="AI Video">
+          <option value="texttovideo">
+            Text to Video
+          </option>
+        </optgroup>
+        <optgroup label="AI Tools">
+          <option value="describeimage">
+            Describe Image
+          </option>
+          <option value="nik-checker">
+            NIK Checker
+          </option>
+        </optgroup>
+        <optgroup label="Downloader">
+          <option value="aio">
+            All-in-One Downloader
+          </option>
+          <option value="skiplink">
+            Skip Link
+          </option>
+        </optgroup>
+        <optgroup label="Maker">
+          <option value="figure">
+            Figure Maker
+          </option>
+          <option value="yapping">
+            Yapping
+          </option>
+          <option value="fakechatfb">
+            Fake Chat FB
+          </option>
+          <option value="logomaker">
+            Logo Maker
+          </option>
+          <option value="iqc">
+            IQC Maker
+          </option>
+        </optgroup>
+        <optgroup label="NSFW">
+          <option value="thehentai-search">
+            The Hentai Search
+          </option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="input-group">
+      <input type="text" id="prompt" placeholder=
+      "Masukkan input (gunakan | untuk pisah param)"> <select id=
+      "style" class="hidden">
+        <option value="Anime">
+          Anime
+        </option>
+        <option value="Realistic">
+          Realistic
+        </option>
+      </select>
+    </div><button onclick="generate()">🚀 Proses</button>
+    <div id="result" class="result"></div>
+  </div>
+  <script>
+  const apiMap = {
+  flux: (v) => `https://api.siputzx.my.id/api/ai/flux?prompt=${encodeURIComponent(v[0])}`,
+  stabilityai: (v) => `https://api.siputzx.my.id/api/ai/stabilityai?prompt=${encodeURIComponent(v[0])}`,
+  'stable-diffusion': (v) => `https://api.siputzx.my.id/api/ai/stable-diffusion?prompt=${encodeURIComponent(v[0])}`,
+  faceswap: (v) => `https://api.siputzx.my.id/api/imgedit/faceswap?image1=${encodeURIComponent(v[0])}&image2=${encodeURIComponent(v[1])}`,
+  text2imgnfws: (v) => `https://api.sxtream.xyz/ai/text2imgnfws?prompt=${encodeURIComponent(v[0])}&style=${encodeURIComponent(v[1])}`,
+  magicstudio: (v) => `https://api.siputzx.my.id/api/ai/magicstudio?prompt=${encodeURIComponent(v[0])}`,
+  describeimage: (v) => `https://api.sxtream.xyz/ai/describe-image?imageUrl=${encodeURIComponent(v[0])}&prompt=${encodeURIComponent(v[1] || '')}`,
+  texttovideo: (v) => `https://api.sxtream.xyz/ai/texttovideo?prompt=${encodeURIComponent(v[0])}`,
+  aio: (v) => `https://api.sxtream.xyz/downloader/aio?url=${encodeURIComponent(v[0])}`,
+  'nik-checker': (v) => `https://api.siputzx.my.id/api/tools/nik-checker?nik=${encodeURIComponent(v[0])}`,
+  'skiplink': (v) => `https://api.siputzx.my.id/api/tools/skiplink?url=${encodeURIComponent(v[0])}`,
+  figure: (v) => `https://api.sxtream.xyz/maker/figure?url=${encodeURIComponent(v[0])}`,
+  yapping: (v) => `https://api.sxtream.xyz/maker/yapping?name=${encodeURIComponent(v[0])}`,
+  fakechatfb: (v) => `https://api.sxtream.xyz/maker/fake-chat-fb?name=${encodeURIComponent(v[0])}&comment=${encodeURIComponent(v[1])}&profileUrl=${encodeURIComponent(v[2])}`,
+  logomaker: (v) => `https://api.sxtream.xyz/maker/logomaker?text=${encodeURIComponent(v[0])}`,
+  iqc: (v) => `https://api.sxtream.xyz/maker/iqc?text=${encodeURIComponent(v[0])}`,
+  'thehentai-search': (v) => `https://api.sxtream.xyz/dewasa/thehentai-search?q=${encodeURIComponent(v[0])}`
+  };
+
+  function toggleStyleInput() {
+  const feature = document.getElementById("feature").value;
+  const styleInput = document.getElementById("style");
+  if (feature === "text2imgnfws") {
+    styleInput.classList.remove("hidden");
+  } else {
+    styleInput.classList.add("hidden");
+  }
+  }
+
+  async function generate() {
+  const feature = document.getElementById("feature").value;
+  const input = document.getElementById("prompt").value.trim();
+  const style = document.getElementById("style").value;
+  const resultDiv = document.getElementById("result");
+  const button = document.querySelector("button");
+
+  if (!feature) {
+    alert("Pilih fitur dulu!");
+    return;
+  }
+
+  if (feature === 'nik-checker') {
+      if (!input || !/^\d{16}$/.test(input)) {
+          alert("Masukkan 16 digit NIK yang valid!");
+          return;
+      }
+  } else if (!input && !["yapping"].includes(feature)) {
+    alert("Isi input!");
+    return;
+  }
+
+  if (feature === 'faceswap') {
+      const parts = input.split('|').map(p => p.trim());
+      if (parts.length !== 2) {
+          alert("Untuk Faceswap, masukkan dua URL gambar yang dipisahkan oleh |");
+          return;
+      }
+      if (!parts[0] || !parts[1]) {
+          alert("Kedua URL gambar tidak boleh kosong!");
+          return;
+      }
+  }
+
+
+  let url;
+  if (feature === "text2imgnfws") {
+    url = apiMap[feature]([input, style]);
+  } else {
+    url = apiMap[feature](input.split("|"));
+  }
+
+  resultDiv.innerHTML = `<div class="loader"></div><p>Loading...</p>`;
+  button.disabled = true;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get("Content-Type");
+    let content = "";
+    let mediaUrls = [];
+
+    if (contentType && (contentType.startsWith("image/") || contentType.startsWith("video/"))) {
+      mediaUrls.push(response.url);
+    } else if (contentType && contentType.startsWith("application/json")) {
+      const data = await response.json();
+      
+      // General Image/Video URL handling from JSON
+      if (data.result && typeof data.result === 'string') {
+          mediaUrls.push(data.result);
+      } else if (data.data && typeof data.data === 'string') {
+          mediaUrls.push(data.data);
+      } else if (data.imageUrl) {
+        mediaUrls.push(data.imageUrl);
+      } else if (data.image) {
+        mediaUrls.push(data.image);
+      } else if (data.result && data.result.posts && Array.isArray(data.result.posts)) {
+          mediaUrls = data.result.posts.map(item => item.imgSrc);
+      } else if (data.result && Array.isArray(data.result)) {
+          mediaUrls = data.result.map(item => item.imgSrc || item.url);
+      } else {
+        // Fallback to display raw JSON
+        const formattedData = JSON.stringify(data, null, 2);
+        content = `<pre><code>${formattedData}</code></pre>`;
+      }
+
+      // Special handling for NIK Checker
+      if (feature === 'nik-checker' && data.data && data.data.data) {
+        const nikData = data.data.data;
+        content = `<div class="formatted-output">
+                      <h3>Data NIK</h3>
+                      <p><strong>Nama:</strong> ${nikData.nama}</p>
+                      <p><strong>NIK:</strong> ${data.data.nik}</p>
+                      <p><strong>Jenis Kelamin:</strong> ${nikData.kelamin}</p>
+                      <p><strong>TTL:</strong> ${nikData.tempat_lahir}</p>
+                      <p><strong>Usia:</strong> ${nikData.usia}</p>
+                      <p><strong>Provinsi:</strong> ${nikData.provinsi}</p>
+                      <p><strong>Kabupaten:</strong> ${nikData.kabupaten}</p>
+                      <p><strong>Kecamatan:</strong> ${nikData.kecamatan}</p>
+                      <p><strong>Kelurahan:</strong> ${nikData.kelurahan}</p>
+                      <p><strong>Alamat:</strong> ${nikData.alamat}</p>
+                  </div>`;
+      }
+      // Special handling for Skip Link
+      else if (feature === 'skiplink' && data.result) {
+        content = `<p class="skiplink-result">Link Berhasil Dilewati: <a href="${data.result}" target="_blank">${data.result}</a></p>`;
+      }
+      
+    } else {
+      const formattedData = await response.text();
+      content = `<pre><code>${formattedData}</code></pre>`;
+    }
+    
+    if (mediaUrls.length > 0) {
+        content = `<p>Hasil:</p>`;
+        mediaUrls.forEach(mediaUrl => {
+            let mediaHtml = '';
+            const isVideo = mediaUrl.match(/\.(mp4|webm|ogv)$/i) || feature === "texttovideo";
+            if (isVideo) {
+                mediaHtml = `<video src="${mediaUrl}" controls autoplay loop></video>`;
+            } else {
+                mediaHtml = `<img src="${mediaUrl}" alt="Hasil AI">`;
+            }
+            content += `<div class="result-item">${mediaHtml}<a class="download-btn" href="${mediaUrl}" download>Download</a></div>`;
+        });
+    } else if (content === "") {
+        content = `<p style="color: #ff6347;">❌ Tidak ada hasil yang ditemukan.</p>`;
+    }
+
+    resultDiv.innerHTML = content;
+
+  } catch (error) {
+    console.error("Gagal memuat data:", error);
+    resultDiv.innerHTML = `<p style="color: #ff6347;">❌ Terjadi kesalahan: ${error.message}. Coba lagi nanti.</p>`;
+  } finally {
+    button.disabled = false;
+  }
+  }
+  </script> 
+  <script>
+
+  const particleContainer = document.querySelector('.particle-bg');
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${Math.random() * 100}vw`;
+    particle.style.top = `${Math.random() * 100}vh`;
+    particle.style.animationDelay = `${Math.random() * 5}s`;
+    particleContainer.appendChild(particle);
+  }
+  for (let i = 0; i < 100; i++) {
+    createParticle();
+  }
+  </script>
+</body>
+</html>
