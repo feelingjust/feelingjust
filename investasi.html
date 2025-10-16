@@ -512,7 +512,7 @@
     <div class="dashboard-overview" aria-label="Portfolio overview cards">
       <div class="card" tabindex="0" aria-label="Total Portfolio Value">
         <h2>Portfolio Value</h2>
-        <div class="portfolio-value" id="dashboard-portfolio-value" aria-live="polite">Rp 100.000</div>
+        <div class="portfolio-value" id="dashboard-portfolio-value" aria-live="polite">Rp 80.000</div>
         <div class="portfolio-change positive" id="dashboard-portfolio-change" aria-label="Portfolio gain of 3.45%">Last Time +Rp 25.000</div>
       </div>
       <div class="card" tabindex="0" aria-label="Monthly Investment Performance">
@@ -531,9 +531,9 @@
     <h1>Analysis Time InvestNaP</h1>
       <div class="card" tabindex="0" aria-label="Robzky">
         <h2>Robzky</h2>
-        <div class="portfolio-value">+Rp 50.000</div>
+        <div class="portfolio-value">+Rp 30.000</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:30%"></div>
+          <div class="bar-fill" style="width:20%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Danny">
@@ -557,6 +557,7 @@
           <div class="bar-fill" style="width: 0%"></div>
         </div>
     </div>
+  <h7>Noted : If Auto Update</h7>
   </section>
 
   <!-- Marketplace Section -->
@@ -614,25 +615,13 @@
         <option value="all">All Transactions</option>
         <option value="buy">Buy</option>
         <option value="sell">Sell</option>
-        <option value="dividend">Dividend</option>
+        <option value="bought">Bought</option>
       </select>
     </div>
     <ul class="transaction-list" id="transaction-list" tabindex="0" aria-live="polite" aria-atomic="true">
       <li tabindex="0">
-        <span class="type">Bought</span> <span class="name">Green Energy Fund</span>
-        <span class="amount positive">+ $1,200</span>
-      </li>
-      <li tabindex="0">
-        <span class="type">Sold</span> <span class="name">Real Estate Trust</span>
-        <span class="amount negative">- $850</span>
-      </li>
-      <li tabindex="0">
-        <span class="type">Dividend</span> <span class="name">Cryptocurrency Index</span>
-        <span class="amount positive">+ $150</span>
-      </li>
-      <li tabindex="0">
-        <span class="type">Bought</span> <span class="name">Startup Venture Capital</span>
-        <span class="amount positive">+ $3,000</span>
+        <span class="type">Buy</span> <span class="name">Invest Mie Ayam</span>
+        <span class="amount positive">Rp 30.000</span>
       </li>
     </ul>
   </section>
@@ -907,13 +896,10 @@
 
   // Transactions filtering and search
   const transactions = [
-    { type: "Bought", name: "Green Energy Fund", amount: +1200 },
-    { type: "Sold", name: "Real Estate Trust", amount: -850 },
-    { type: "Dividend", name: "Cryptocurrency Index", amount: +150 },
-    { type: "Bought", name: "Startup Venture Capital", amount: +3000 },
-    { type: "Bought", name: "Crypto Index", amount: +450 },
-    { type: "Dividend", name: "Green Energy Fund", amount: +200 },
-    { type: "Sold", name: "Startup Venture Capital", amount: -500 },
+    { type: "Buy", name: "Mie Ayam", amount: +40000 },
+    { type: "Buy", name: "Mie Ayam", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", amount: +30000 },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
@@ -930,7 +916,7 @@
       li.setAttribute('tabindex', '0');
       li.innerHTML = `
         <span class="type">${tx.type}</span> <span class="name">${tx.name}</span>
-        <span class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">${tx.amount >= 0 ? '+' : '-'} $${Math.abs(tx.amount).toLocaleString()}</span>
+        <span class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">${tx.amount >= 0 ? '+' : '-'} Rp${Math.abs(tx.amount).toLocaleString()}</span>
       `;
       transactionListEl.appendChild(li);
     }
