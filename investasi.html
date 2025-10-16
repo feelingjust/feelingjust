@@ -506,12 +506,12 @@
 <main class="container-main" role="main">
   <!-- Dashboard Section -->
   <section id="dashboard-section" class="app-section active" role="tabpanel" tabindex="0">
-    <center>Coming Soon Countdown Time</center>
+    <center><p id="time"></p></center>
     <h1>Dashboard</h1>
     <div class="dashboard-overview" aria-label="Portfolio overview cards">
       <div class="card" tabindex="0" aria-label="Total Portfolio Value">
         <h2>Portfolio Value</h2>
-        <div class="portfolio-value" id="dashboard-portfolio-value" aria-live="polite">Rp 80.000</div>
+        <div class="portfolio-value" id="dashboard-value" id="dashboard-portfolio-value" aria-live="polite">Rp 0</div>
         <div class="portfolio-change positive" id="dashboard-portfolio-change" aria-label="Portfolio gain of 3.45%">Last Time +Rp 25.000</div>
       </div>
       <div class="card" tabindex="0" aria-label="Monthly Investment Performance">
@@ -529,28 +529,28 @@
     <h1>Analysis Time InvestNaP</h1>
       <div class="card" tabindex="0" aria-label="Robzky">
         <h2>Robzky</h2>
-        <div class="portfolio-value">+Rp 30.000</div>
+        <div class="portfolio-value" id="1money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
           <div class="bar-fill" style="width:20%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Danny">
         <h2>Danny</h2>
-        <div class="portfolio-value">+Rp 25.000</div>
+        <div class="portfolio-value" id="2money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width: 15%"></div>
+          <div class="bar-fill" style="width: 25%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Nakif">
         <h2>Nakif</h2>
-        <div class="portfolio-value">+Rp 25.000</div>
+        <div class="portfolio-value" id="3money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
           <div class="bar-fill" style="width:15%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Andi">
         <h2>Andi</h2>
-        <div class="portfolio-value">+0%</div>
+        <div class="portfolio-value" id="4money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
           <div class="bar-fill" style="width: 0%"></div>
         </div>
@@ -713,6 +713,18 @@
 </footer>
 
 <script>
+  
+  // setup all
+  document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+            updateDashValue();
+            setInterval(updateTime, 2000);
+            updateUserValue();
+            setInterval(updateTime, 2000);
+            updateVisitorCount();
+            setInterval(updateVisitorCount, 600000);
+        });
   // Mobile menu toggle setup
   const menuToggleBtn = document.querySelector('button.mobile-menu-toggle');
   const mobileNav = document.querySelector('.mobile-nav');
@@ -861,6 +873,15 @@
       alert('Please fill in your email and password.');
     }
   });
+  
+  function updateTime() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+    var timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('time').innerText = timeString;
+        }
 
   // Accessibility: trap focus inside modals when open
   function trapFocus(modal) {
@@ -891,6 +912,22 @@
   }
   trapFocus(investModal);
   trapFocus(loginModal);
+  
+  function updateDashValue() {
+    var moneyString = `Rp 80.000`;
+    document.getElementById('dashboard-value').innerText = moneyString;
+        }
+        
+  function updateUserValue() {
+    var moneyrobzkyString = `+Rp 30.000`;
+    var moneydannyString = `+Rp 50.000`;
+    var moneynakifString = `+Rp 25.000`;
+    var moneyandiString = `+Rp 0`;
+    document.getElementById('1money-value').innerText = moneyrobzkyString;
+    document.getElementById('2money-value').innerText = moneydannyString;
+    document.getElementById('3money-value').innerText = moneynakifString;
+    document.getElementById('4money-value').innerText = moneyandiString;
+        }
 
   // Transactions filtering and search
   const transactions = [
