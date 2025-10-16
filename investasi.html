@@ -527,7 +527,6 @@
       </div>
     </div>
     <center><button class="primary-btn" id="dashboard-invest-btn" aria-haspopup="dialog" aria-controls="invest-modal">Invest Now</button></center>
-    <hr></hr>
     <h1>Analysis Time InvestNaP</h1>
       <div class="card" tabindex="0" aria-label="Robzky">
         <h2>Robzky</h2>
@@ -896,10 +895,10 @@
 
   // Transactions filtering and search
   const transactions = [
-    { type: "Buy", name: "Mie Ayam", amount: +40000 },
-    { type: "Buy", name: "Mie Ayam", amount: +50000 },
-    { type: "Buy", name: "Mie Ayam", amount: +50000 },
-    { type: "Buy", name: "Mie Ayam", amount: +30000 },
+    { type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
+    { type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", gok: "16 - 23 Okt", amount: +30000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
@@ -915,8 +914,9 @@
       const li = document.createElement('li');
       li.setAttribute('tabindex', '0');
       li.innerHTML = `
-        <span class="type">${tx.type}</span> <span class="name">${tx.name}</span>
+        <span class="type">${tx.type}</span> <span class="name">${tx.gok}</span>
         <span class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">${tx.amount >= 0 ? '+' : '-'} Rp${Math.abs(tx.amount).toLocaleString()}</span>
+        <span class="type">${tx.name}</span>
       `;
       transactionListEl.appendChild(li);
     }
