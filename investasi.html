@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>InvestNaP - Full Featured Investment App</title>
+<style>
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0f172a;
+    color: #e0e7ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    color: #818cf8;
+    text-decoration: none;
+  }
+  a:hover, a:focus {
+    color: #a5b4fc;
+    outline: none;
+  }
+  /* Container */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+    width: 100%;
+  }
+
+  /* Header */
+  header {
+    background: rgba(31, 41, 55, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid #374151;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #6366f1;
+    letter-spacing: 0.04em;
+    user-select: none;
+  }
+  /* Navigation */
+  nav.desktop-nav {
+    display: flex;
+    gap: 24px;
+  }
+  nav.desktop-nav a {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+  nav.desktop-nav a.active, nav.desktop-nav a:hover {
+    color: #a5b4fc;
+    border-bottom-color: #6366f1;
+    outline: none;
+  }
+  /* Mobile hamburger */
+  button.mobile-menu-toggle {
+    background: none;
+    border: none;
+    color: #a5b4fc;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: none;
+  }
+  button.mobile-menu-toggle:focus {
+    outline-offset: 2px;
+    outline: 2px solid #818cf8;
+  }
+  /* Mobile menu */
+  .mobile-nav {
+    background: #1e293b;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 999;
+  }
+  .mobile-nav.open {
+    max-height: 300px;
+  }
+  .mobile-nav a {
+    display: block;
+    padding: 16px 24px;
+    border-bottom: 1px solid #334155;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+  .mobile-nav a:hover, .mobile-nav a:focus {
+    background: #4f46e5;
+    color: #e0e7ff;
+    outline: none;
+  }
+
+  /* Main content */
+  main {
+    flex-grow: 1;
+    background: #111827;
+    padding: 32px 0 64px;
+    display: flex;
+    flex-direction: column;
+  }
+  .container-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+    width: 100%;
+  }
+  section.app-section {
+    display: none;
+    flex-direction: column;
+  }
+  section.app-section.active {
+    display: flex;
+  }
+
+  /* Cards */
+  .card {
+    background: rgba(31, 41, 55, 0.85);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(99,102,241,0.25);
+    margin-bottom: 24px;
+    color: #cbd5e1;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #818cf8;
+    margin-bottom: 16px;
+  }
+  /* Dashboard */
+  .dashboard-overview {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .dashboard-overview .card {
+    display: flex;
+    flex-direction: column;
+  }
+  .portfolio-value {
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: #a5b4fc;
+    margin-bottom: 8px;
+    user-select: text;
+  }
+  .portfolio-change {
+    font-weight: 700;
+  }
+  .portfolio-change.positive {
+    color: #84cc16;
+  }
+  .portfolio-change.negative {
+    color: #ef4444;
+  }
+  /* Simple chart bars for demo */
+  .chart-bar {
+    background: #4b5563;
+    border-radius: 12px;
+    height: 14px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+  }
+
+  /* Buttons */
+  button.primary-btn {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #e0e7ff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 32px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    user-select: none;
+    align-self: start;
+    transition: background 0.3s ease;
+  }
+  button.primary-btn:hover, button.primary-btn:focus {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    outline: none;
+  }
+
+  /* Marketplace */
+  .marketplace-list {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .marketplace-list th, .marketplace-list td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #374151;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+  }
+  .marketplace-list th {
+    color: #818cf8;
+    font-weight: 700;
+    border-bottom: 2px solid #6366f1;
+  }
+  .marketplace-list tr:hover, .marketplace-list tr:focus-within {
+    background-color: rgba(99, 102, 241, 0.15);
+  }
+  .marketplace-list td .positive {
+    color: #84cc16;
+  }
+  .marketplace-list td .negative {
+    color: #ef4444;
+  }
+  button.invest-btn {
+    background: #4f46e5;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: #e0e7ff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button.invest-btn:hover, button.invest-btn:focus {
+    background: #6366f1;
+    outline: none;
+  }
+
+  /* Transactions */
+  .transaction-filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  input[type="search"], select {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    background: #374151;
+    color: #e0e7ff;
+    font-size: 1rem;
+  }
+  input[type="search"]::placeholder {
+    color: #9ca3af;
+  }
+  .transaction-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+  .transaction-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #374151;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 0.95rem;
+    align-items: center;
+  }
+  .transaction-list li span {
+    justify-self: start;
+  }
+  .transaction-list li .amount {
+    font-weight: 700;
+    justify-self: end;
+  }
+  .transaction-list li .positive {
+    color: #84cc16;
+  }
+  .transaction-list li .negative {
+    color: #ef4444;
+  }
+
+  /* Profile */
+  .profile-form label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #818cf8;
+  }
+  .profile-form input, .profile-form select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #374151;
+    color: #e0e7ff;
+    font-size: 1rem;
+  }
+  .profile-form button {
+    margin-top: 30px;
+  }
+
+  /* Modals */
+  .modal {
+    position: fixed;
+    display: none;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(15,23,42,0.85);
+    z-index: 1500;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  .modal.open {
+    display: flex;
+  }
+  .modal-content {
+    background: #1e293b;
+    padding: 32px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(99,102,241,0.4);
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-content h3 {
+    color: #818cf8;
+    margin-bottom: 16px;
+    font-weight: 900;
+    font-size: 1.4rem;
+  }
+  .modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #a5b4fc;
+  }
+  .modal-content input[type="email"],
+  .modal-content input[type="password"],
+  .modal-content input[type="text"],
+  .modal-content input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    background: #374151;
+    color: #e0e7ff;
+  }
+  .modal-content input:focus {
+    outline: 2px solid #6366f1;
+  }
+  .modal-content button {
+    padding: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #e0e7ff;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .modal-content button:hover, .modal-content button:focus {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    outline: none;
+  }
+  .modal-content .close-btn {
+    background: transparent;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #8b5cf6;
+    margin-top: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .modal-content .close-btn:hover, .modal-content .close-btn:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+
+  /* Footer */
+  footer {
+    background: #1e293b;
+    color: #94a3b8;
+    padding: 24px 0;
+    font-size: 0.9rem;
+  }
+  .footer-container {
+    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    gap: 24px;
+  }
+  .footer-section {
+    text-align: center;
+    flex: 1 1 200px;
+  }
+  .footer-section h4 {
+    font-weight: 700;
+    color: #818cf8;
+    margin-bottom: 12px;
+  }
+  .footer-links a {
+    display: block;
+    margin-bottom: 8px;
+    color: #94a3b8;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover, .footer-links a:focus {
+    color: #c7d2fe;
+    outline: none;
+  }
+  .social-icons {
+    margin-top: 8px;
+    display: flex;
+    gap: 16px;
+  }
+  .social-icons a {
+    color: #94a3b8;
+    font-size: 1.3rem;
+  }
+  .social-icons a:hover, .social-icons a:focus {
+    color: #6366f1;
+    outline: none;
+  }
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid #374151;
+    padding-top: 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav.desktop-nav {
+      display: none;
+    }
+    button.mobile-menu-toggle {
+      display: block;
+    }
+  }
+  @media (min-width: 769px) {
+    .mobile-nav {
+      display: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner container">
+    <div class="logo" tabindex="0" aria-label="InvestNaP Logo">InvestNaP</div>
+    <nav class="desktop-nav" aria-label="Primary Navigation">
+      <a href="#" class="nav-link active" data-section="dashboard" tabindex="0" role="tab" aria-selected="true" aria-controls="dashboard-section">Dashboard</a>
+      <a href="#" class="nav-link" data-section="marketplace" tabindex="0" role="tab" aria-selected="false" aria-controls="marketplace-section">Marketplace</a>
+      <a href="#" class="nav-link" data-section="transactions" tabindex="0" role="tab" aria-selected="false" aria-controls="transactions-section">Transactions</a>
+      <a href="#" class="nav-link" data-section="profile" tabindex="0" role="tab" aria-selected="false" aria-controls="profile-section">Profile</a>
+      <a href="#" class="nav-link" id="login-desktop-link" tabindex="0">Login</a>
+    </nav>
+    <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">&#9776;</button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation" aria-hidden="true">
+    <a href="#" class="mobile-nav-link" data-section="dashboard" tabindex="-1">Dashboard</a>
+    <a href="#" class="mobile-nav-link" data-section="marketplace" tabindex="-1">Marketplace</a>
+    <a href="#" class="mobile-nav-link" data-section="transactions" tabindex="-1">Transactions</a>
+    <a href="#" class="mobile-nav-link" data-section="profile" tabindex="-1">Profile</a>
+    <a href="#login-modal" id="login-mobile-link" tabindex="-1">Login</a>
+  </nav>
+</header>
+
+<main class="container-main" role="main">
+  <!-- Dashboard Section -->
+  <section id="dashboard-section" class="app-section active" role="tabpanel" tabindex="0">
+    <h1>Dashboard</h1>
+    <div class="dashboard-overview" aria-label="Portfolio overview cards">
+      <div class="card" tabindex="0" aria-label="Total Portfolio Value">
+        <h2>Portfolio Value</h2>
+        <div class="portfolio-value" id="dashboard-portfolio-value" aria-live="polite">Rp 100.000</div>
+        <div class="portfolio-change positive" id="dashboard-portfolio-change" aria-label="Portfolio gain of 3.45%">Last Time +Rp 25.000</div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Monthly Investment Performance">
+        <h2>Monthly Performance</h2>
+        <div class="portfolio-value">+12.8%</div>
+        </div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Yearly Investment Performance">
+        <h2>Yearly Performance</h2>
+        <div class="portfolio-value">+21.2%</div>
+        </div>
+      </div>
+    </div>
+    <center><button class="primary-btn" id="dashboard-invest-btn" aria-haspopup="dialog" aria-controls="invest-modal">Invest Now</button></center>
+    <hr></hr>
+    <h1>Analysis Time InvestNaP</h1>
+      <div class="card" tabindex="0" aria-label="Robzky">
+        <h2>Robzky</h2>
+        <div class="portfolio-value">+Rp 50.000</div>
+        <div class="chart-bar" aria-hidden="true">
+          <div class="bar-fill" style="width:30%"></div>
+        </div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Danny">
+        <h2>Danny</h2>
+        <div class="portfolio-value">+Rp 25.000</div>
+        <div class="chart-bar" aria-hidden="true">
+          <div class="bar-fill" style="width: 15%"></div>
+        </div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Nakif">
+        <h2>Nakif</h2>
+        <div class="portfolio-value">+Rp 25.000</div>
+        <div class="chart-bar" aria-hidden="true">
+          <div class="bar-fill" style="width:15%"></div>
+        </div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Andi">
+        <h2>Andi</h2>
+        <div class="portfolio-value">+0%</div>
+        <div class="chart-bar" aria-hidden="true">
+          <div class="bar-fill" style="width: 0%"></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Marketplace Section -->
+  <section id="marketplace-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1>Investment Marketplace</h1>  
+    <table class="marketplace-list" role="table" aria-label="List of investment opportunities">
+      <thead>
+        <tr>
+          <th scope="col">Opportunity</th>
+          <th scope="col">Type</th>
+          <th scope="col">Expected Return</th>
+          <th scope="col">Risk Level</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tabindex="0">
+          <td>Green Energy Fund</td>
+          <td>Mutual Fund</td>
+          <td class="positive">8.5%</td>
+          <td>Medium</td>
+          <td><button class="invest-btn" data-opportunity="Green Energy Fund" aria-label="Invest in Green Energy Fund">Invest</button></td>
+        </tr>
+        <tr tabindex="0">
+          <td>Real Estate Trust</td>
+          <td>REIT</td>
+          <td class="positive">6.2%</td>
+          <td>Low</td>
+          <td><button class="invest-btn" data-opportunity="Real Estate Trust" aria-label="Invest in Real Estate Trust">Invest</button></td>
+        </tr>
+        <tr tabindex="0">
+          <td>Cryptocurrency Index</td>
+          <td>Index Fund</td>
+          <td class="positive">15.3%</td>
+          <td>High</td>
+          <td><button class="invest-btn" data-opportunity="Cryptocurrency Index" aria-label="Invest in Cryptocurrency Index">Invest</button></td>
+        </tr>
+        <tr tabindex="0">
+          <td>Startup Venture Capital</td>
+          <td>Private Equity</td>
+          <td class="positive">20%</td>
+          <td>High</td>
+          <td><button class="invest-btn" data-opportunity="Startup Venture Capital" aria-label="Invest in Startup Venture Capital">Invest</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Transactions Section -->
+  <section id="transactions-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1>Transaction History</h1>
+    <div class="transaction-filters" aria-label="Transaction filters">
+      <input type="search" id="transaction-search" placeholder="Search transactions" aria-label="Search transactions">
+      <select id="transaction-type-filter" aria-label="Filter by transaction type">
+        <option value="all">All Transactions</option>
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+        <option value="dividend">Dividend</option>
+      </select>
+    </div>
+    <ul class="transaction-list" id="transaction-list" tabindex="0" aria-live="polite" aria-atomic="true">
+      <li tabindex="0">
+        <span class="type">Bought</span> <span class="name">Green Energy Fund</span>
+        <span class="amount positive">+ $1,200</span>
+      </li>
+      <li tabindex="0">
+        <span class="type">Sold</span> <span class="name">Real Estate Trust</span>
+        <span class="amount negative">- $850</span>
+      </li>
+      <li tabindex="0">
+        <span class="type">Dividend</span> <span class="name">Cryptocurrency Index</span>
+        <span class="amount positive">+ $150</span>
+      </li>
+      <li tabindex="0">
+        <span class="type">Bought</span> <span class="name">Startup Venture Capital</span>
+        <span class="amount positive">+ $3,000</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Profile Section -->
+  <section id="profile-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1>Your Profile</h1>
+    <form class="profile-form" aria-label="User profile form">
+      <label for="profile-name">Full Name</label>
+      <input id="profile-name" name="profile-name" type="text" placeholder="John Doe" />
+
+      <label for="profile-email">Email</label>
+      <input id="profile-email" name="profile-email" type="email" placeholder="john@example.com" />
+
+      <label for="profile-phone">Phone Number</label>
+      <input id="profile-phone" name="profile-phone" type="tel" placeholder="+1234567890" />
+
+      <label for="profile-country">Country</label>
+      <select id="profile-country" name="profile-country" aria-label="Select your country">
+        <option value="" disabled selected>Select your country</option>
+        <option value="indonesia">Indonesia</option>
+        <option value="usa">United States</option>
+        <option value="uk">United Kingdom</option>
+        <option value="germany">Germany</option>
+        <option value="france">France</option>
+        <option value="japan">Japan</option>
+        <option value="china">China</option>
+      </select>
+
+      <button type="submit" class="primary-btn">Save Profile</button>
+    </form>
+  </section>
+</main>
+
+<!-- Invest Modal -->
+<div class="modal" id="invest-modal" role="dialog" aria-modal="true" aria-labelledby="invest-modal-title" aria-hidden="true" tabindex="-1">
+  <div class="modal-content">
+    <h3 id="invest-modal-title">Invest in Opportunity</h3>
+    <form id="invest-form">
+      <label for="investment-opportunity-display">Opportunity</label>
+      <input type="text" id="investment-opportunity-display" name="investment-opportunity-display" readonly aria-readonly="true" />
+      <label for="investment-amount">Amount to Invest (USD)</label>
+      <input type="number" id="investment-amount" name="investment-amount" min="10" required aria-required="true" />
+      <button type="submit" class="primary-btn">Confirm Investment</button>
+      <button type="button" class="close-btn" id="close-invest-modal">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" aria-hidden="true" tabindex="-1">
+  <div class="modal-content">
+    <h3 id="login-modal-title">User Login</h3>
+    <form id="login-form">
+      <label for="login-email">Email address</label>
+      <input type="email" id="login-email" name="login-email" placeholder="you@example.com" required aria-required="true" />
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" name="login-password" required aria-required="true" />
+      <button type="submit" class="primary-btn">Log In</button>
+      <button type="button" class="close-btn" id="close-login-modal">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<footer aria-label="Site Footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-section" aria-labelledby="footer-support">
+        <h4 id="footer-support">Support</h4>
+        <div class="footer-links">
+          <a href="https://nani-sigma.vercel.app/support-whatsapp.html" tabindex="0">Help Center</a>
+          <a href="https://nani-sigma.vercel.app/support.html" tabindex="0">Contact Us</a>
+          <a href="#" tabindex="0">Privacy Policy</a>
+          <a href="#" tabindex="0">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-section" aria-labelledby="footer-social">
+        <h4 id="footer-social">Connect</h4>
+        <div class="social-icons">
+          <a href="#" aria-label="Website" tabindex="0" target="_blank" rel="noopener noreferrer">IG</a>
+          <a href="#" aria-label="Twitter" tabindex="0" target="_blank" rel="noopener noreferrer">CH</a>
+          <a href="#" aria-label="LinkedIn" tabindex="0" target="_blank" rel="noopener noreferrer">LOP</a>
+          <a href="#" aria-label="Website" tabindex="0" target="_blank" rel="noopener noreferrer">IG</a>
+          <a href="#" aria-label="Twitter" tabindex="0" target="_blank" rel="noopener noreferrer">CH</a>
+          <a href="#" aria-label="LinkedIn" tabindex="0" target="_blank" rel="noopener noreferrer">LOP</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom" tabindex="0">© 2025 InvestNaP, Inc. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle setup
+  const menuToggleBtn = document.querySelector('button.mobile-menu-toggle');
+  const mobileNav = document.querySelector('.mobile-nav');
+  menuToggleBtn.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    mobileNav.setAttribute('aria-hidden', !open);
+    menuToggleBtn.setAttribute('aria-expanded', open);
+  });
+
+  // Navigation tab switching setup
+  const navLinks = document.querySelectorAll('nav.desktop-nav .nav-link');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav .mobile-nav-link');
+  const sections = document.querySelectorAll('section.app-section');
+
+  function switchSection(sectionId) {
+    sections.forEach(section => {
+      const isActive = section.id === sectionId + '-section';
+      section.classList.toggle('active', isActive);
+      section.setAttribute('aria-hidden', !isActive);
+    });
+    navLinks.forEach(link => {
+      const isActive = link.dataset.section === sectionId;
+      link.classList.toggle('active', isActive);
+      link.setAttribute('aria-selected', isActive);
+    });
+    mobileNavLinks.forEach(link => {
+      link.setAttribute('tabindex', '0');
+      const isActive = link.dataset.section === sectionId;
+      if (isActive) {
+        link.focus();
+      }
+    });
+    // Close mobile menu on selection
+    mobileNav.classList.remove('open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    menuToggleBtn.setAttribute('aria-expanded', false);
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const sectionId = link.dataset.section;
+      if (sectionId) {
+        switchSection(sectionId);
+      }
+    });
+  });
+
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const sectionId = link.dataset.section;
+      if (sectionId) {
+        switchSection(sectionId);
+      }
+    });
+  });
+
+  // Invest modal logic
+  const investModal = document.getElementById('invest-modal');
+  const investForm = document.getElementById('invest-form');
+  const opportunityDisplay = document.getElementById('investment-opportunity-display');
+  const investAmountInput = document.getElementById('investment-amount');
+  const closeInvestModalBtn = document.getElementById('close-invest-modal');
+  // Invest buttons can come from marketplace or dashboard button
+  function openInvestModal(opportunityName = 'Selected Investment') {
+    opportunityDisplay.value = opportunityName;
+    investAmountInput.value = '';
+    investModal.classList.add('open');
+    investModal.setAttribute('aria-hidden', 'false');
+    investAmountInput.focus();
+  }
+  // Marketplace invest buttons
+  document.querySelectorAll('button.invest-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      openInvestModal(button.dataset.opportunity);
+    });
+  });
+  // Dashboard invest button
+  const dashboardInvestBtn = document.getElementById('dashboard-invest-btn');
+  dashboardInvestBtn.addEventListener('click', () => {
+    openInvestModal();
+  });
+  // Close invest modal
+  closeInvestModalBtn.addEventListener('click', closeInvestModal);
+  investModal.addEventListener('click', e => {
+    if (e.target === investModal) closeInvestModal();
+  });
+  function closeInvestModal() {
+    investModal.classList.remove('open');
+    investModal.setAttribute('aria-hidden', 'true');
+    investForm.reset();
+  }
+  // Confirm investment handling
+  investForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const amount = parseFloat(investAmountInput.value);
+    if (!amount || amount < 10) {
+      alert('Please enter a valid investment amount of at least $10.');
+      investAmountInput.focus();
+      return;
+    }
+    const opportunity = opportunityDisplay.value;
+    alert(`Thank you for investing $${amount.toFixed(2)} in ${opportunity}.`);
+    closeInvestModal();
+  });
+
+  // Login modal logic
+  const loginModal = document.getElementById('login-modal');
+  const loginDesktopLink = document.getElementById('login-desktop-link');
+  const loginMobileLink = document.getElementById('login-mobile-link');
+  const loginForm = document.getElementById('login-form');
+  const closeLoginModalBtn = document.getElementById('close-login-modal');
+  // Open login modal on desktop or mobile login link click
+  [loginDesktopLink, loginMobileLink].forEach(link => {
+    if (link) {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        loginModal.classList.add('open');
+        loginModal.setAttribute('aria-hidden', 'false');
+        setTimeout(() => {
+          document.getElementById('login-email').focus();
+        }, 100);
+      });
+    }
+  });
+  // Close login modal
+  closeLoginModalBtn.addEventListener('click', closeLoginModal);
+  loginModal.addEventListener('click', e => {
+    if (e.target === loginModal) closeLoginModal();
+  });
+  function closeLoginModal() {
+    loginModal.classList.remove('open');
+    loginModal.setAttribute('aria-hidden', 'true');
+    loginForm.reset();
+  }
+  // Handle login form submit
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = loginForm['login-email'].value.trim();
+    const pass = loginForm['login-password'].value.trim();
+    if(email && pass) {
+      alert(`Welcome back, ${email}!`);
+      closeLoginModal();
+    } else {
+      alert('Please fill in your email and password.');
+    }
+  });
+
+  // Accessibility: trap focus inside modals when open
+  function trapFocus(modal) {
+    const focusableElements = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+    if (focusableElements.length === 0) return;
+
+    const firstElem = focusableElements[0];
+    const lastElem = focusableElements[focusableElements.length - 1];
+    modal.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstElem) {
+            e.preventDefault();
+            lastElem.focus();
+          }
+        } else {
+          if (document.activeElement === lastElem) {
+            e.preventDefault();
+            firstElem.focus();
+          }
+        }
+      }
+      if (e.key === 'Escape') {
+        if (modal === investModal) closeInvestModal();
+        else if (modal === loginModal) closeLoginModal();
+      }
+    });
+  }
+  trapFocus(investModal);
+  trapFocus(loginModal);
+
+  // Transactions filtering and search
+  const transactions = [
+    { type: "Bought", name: "Green Energy Fund", amount: +1200 },
+    { type: "Sold", name: "Real Estate Trust", amount: -850 },
+    { type: "Dividend", name: "Cryptocurrency Index", amount: +150 },
+    { type: "Bought", name: "Startup Venture Capital", amount: +3000 },
+    { type: "Bought", name: "Crypto Index", amount: +450 },
+    { type: "Dividend", name: "Green Energy Fund", amount: +200 },
+    { type: "Sold", name: "Startup Venture Capital", amount: -500 },
+  ];
+  const transactionListEl = document.getElementById('transaction-list');
+  const searchInput = document.getElementById('transaction-search');
+  const typeFilter = document.getElementById('transaction-type-filter');
+
+  function renderTransactions(items) {
+    transactionListEl.innerHTML = '';
+    if (items.length === 0) {
+      transactionListEl.innerHTML = '<li tabindex="0" style="color:#818cf8;">No transactions match.</li>';
+      return;
+    }
+    for(const tx of items) {
+      const li = document.createElement('li');
+      li.setAttribute('tabindex', '0');
+      li.innerHTML = `
+        <span class="type">${tx.type}</span> <span class="name">${tx.name}</span>
+        <span class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">${tx.amount >= 0 ? '+' : '-'} $${Math.abs(tx.amount).toLocaleString()}</span>
+      `;
+      transactionListEl.appendChild(li);
+    }
+  }
+  function filterTransactions() {
+    let val = searchInput.value.toLowerCase().trim();
+    let typeVal = typeFilter.value.toLowerCase();
+    let filtered = transactions.filter(tx => {
+      const matchesSearch = tx.name.toLowerCase().includes(val) || tx.type.toLowerCase().includes(val);
+      const matchesType = (typeVal === 'all' || tx.type.toLowerCase() === typeVal);
+      return matchesSearch && matchesType;
+    });
+    renderTransactions(filtered);
+  }
+  searchInput.addEventListener('input', filterTransactions);
+  typeFilter.addEventListener('change', filterTransactions);
+  // Initial render
+  renderTransactions(transactions);
+</script>
+</body>
+</html>
+
