@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>InvestNaP - Full Featured Investment App</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   /* Reset */
   *, *::before, *::after {
@@ -406,6 +408,29 @@
     text-decoration: underline;
     outline: none;
   }
+  
+  /* Loading */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #0f172a 20%, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: opacity 1s ease;
+    }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(34, 211, 238, 0.3);
+      border-top: 6px solid #22d3ee;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
   /* Footer */
   footer {
@@ -482,6 +507,10 @@
 </style>
 </head>
 <body>
+  <body class="min-h-screen flex flex-col">
+  <div class="preloader" id="preloader">
+    <div class="spinner"></div>
+  </div>
 <header>
   <div class="header-inner container">
     <div class="logo" tabindex="0" aria-label="InvestNaP Logo">InvestNaP</div>
@@ -526,6 +555,12 @@
       </div>
     </div>
     <center><button class="primary-btn" id="dashboard-invest-btn" aria-haspopup="dialog" aria-controls="invest-modal">Invest Now</button></center>
+    <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="mainContent">
+    <section id="portfolio" class="card col-span-1 md:col-span-2">
+      <h2 class="text-xl font-semibold mb-4 glow">Value</h2>
+      <canvas id="portfolioChart"></canvas>
+      <div class="mt-4 text-gray-300 text-sm">Performa investasi keseluruhan berdasarkan saham yang dimiliki. Label bulan akan bergerak otomatis.</div>
+    </section>
     <h1>Analysis Time InvestNaP</h1>
       <div class="card" tabindex="0" aria-label="Robzky">
         <h2>Robzky</h2>
@@ -782,6 +817,58 @@
       }
     });
   });
+  
+    // Chart setup
+    const ctx = document.getElementById('portfolioChart').getContext('2d');
+    const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'];
+    const dataValues = [100, 115, 130, 120, 150, 160];
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [...monthLabels],
+        datasets: [{
+          label: 'Pertumbuhan Portofolio',
+          data: dataValues,
+          borderColor: 'rgba(34, 211, 238, 1)',
+          backgroundColor: 'rgba(34, 211, 238, 0.3)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: false, grid: { color: 'rgba(255,255,255,0.1)' } },
+          x: { grid: { color: 'rgba(255,255,255,0.1)' } }
+        },
+        plugins: { legend: { labels: { color: '#f8fafc' } } }
+      }
+    });
+
+    const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    let monthIndex = 6;
+
+    // Real-time chart & label update
+    setInterval(() => {
+      const newValue = dataValues[dataValues.length - 1] + (Math.random() - 0.5) * 10;
+      dataValues.push(newValue);
+      dataValues.shift();
+      monthLabels.push(allMonths[monthIndex % allMonths.length]);
+      monthLabels.shift();
+      chart.data.labels = [...monthLabels];
+      chart.update();
+      monthIndex++;
+    }, 3000);
+    
+    // Card entrance animation
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => observer.observe(card));
 
   // Invest modal logic
   const investModal = document.getElementById('invest-modal');
@@ -914,7 +1001,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp _NotSD`;
+    var moneyString = `Rp 105.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -971,6 +1058,22 @@
   typeFilter.addEventListener('change', filterTransactions);
   // Initial render
   renderTransactions(transactions);
+  
+const toast = document.getElementById('toast');
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+  
+    // Loading Screen
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.style.opacity = '0';
+      setTimeout(() => preloader.remove(), 1000);
+      document.getElementById('mainContent').classList.add('loaded');
+    });
 </script>
 </body>
 </html>
