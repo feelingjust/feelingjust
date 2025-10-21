@@ -565,8 +565,8 @@
 <aside class="panel">
   <div class="card floating">
       <div class="stats">
-      <div class="stat"><div class="muted">Pengguna</div><b>N$_PIwZ</b></div>
-      <div class="stat"><div class="muted">Pertumbuhan</div><b>&784J</b></div>
+      <div class="stat"><div class="muted">Pengguna</div><b>7</b></div>
+      <div class="stat"><div class="muted">Pertumbuhan</div><b>+8.2%</b></div>
       </div>
       <div style="height:12px"></div>
       <div class="muted">Kualitas</div>
@@ -585,12 +585,12 @@
       </div>
       <div class="card" tabindex="0" aria-label="Monthly Investment Performance">
         <h2>Monthly Performance</h2>
-        <div class="portfolio-value">0%</div><!--+12.8%-->
+        <div class="portfolio-value">+12.8%</div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Yearly Investment Performance">
         <h2>Yearly Performance</h2>
-        <div class="portfolio-value">0%</div> <!--+21.2%-->
+        <div class="portfolio-value">+21.2%</div>
         </div>
       </div>
     </div>
@@ -658,7 +658,7 @@
   </section>
 
   <!-- Marketplace Section -->
-  <section id="marketplac-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+  <section id="marketplace-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
     <h1 style="margin-top: 12px;">Investment Marketplace</h1>  
     <table class="marketplace-list" role="table" aria-label="List of investment opportunities">
       <thead>
@@ -1066,7 +1066,7 @@
   
   function updateDashValue() {
     var moneyString = `Rp 700.000`;
-    document.getElementById('dashboard-value.').innerText = moneyString;
+    document.getElementById('dashboard-value').innerText = moneyString;
         }
         
   function updateUserValue() {
@@ -1085,24 +1085,24 @@
     var moneyosisString = `+Rp 60.000`;
     var moneyakmalString = `+Rp 125.000`;
     var moneydelaString = `+Rp 0`;
-    document.getElementById('1money-value.').innerText = moneyrobzkyString;
-    document.getElementById('2money-value.').innerText = moneydannyString;
-    document.getElementById('3money-value.').innerText = moneynakifString;
-    document.getElementById('4money-value.').innerText = moneyandiString;
-    document.getElementById('5money-value.').innerText = moneyosisString;
-    document.getElementById('6money-value.').innerText = moneyakmalString;
-    document.getElementById('7money-value.').innerText = moneydelaString;
+    document.getElementById('1money-value').innerText = moneyrobzkyString;
+    document.getElementById('2money-value').innerText = moneydannyString;
+    document.getElementById('3money-value').innerText = moneynakifString;
+    document.getElementById('4money-value').innerText = moneyandiString;
+    document.getElementById('5money-value').innerText = moneyosisString;
+    document.getElementById('6money-value').innerText = moneyakmalString;
+    document.getElementById('7money-value').innerText = moneydelaString;
         }
 
   // Transactions filtering and search
   const transactions = [
-    //+{ type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
-    //+{ type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
-    //+{ type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
-    //+{ type: "Buy", name: "Mie Ayam", gok: "16 - 23 Okt", amount: +30000, },
-    //+{ type: "Buy", name: "Mie Ayam", gok: "17 - 24 Okt", amount: +30000, },
-    //+{ type: "Buy", name: "Ayam Geprek", gok: "20 - 28 Okt", amount: +250000, },
-    //+{ type: "Buy", name: "Mie Goreng", gok: "21 - 29 Okt", amount: +50000, },
+    { type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
+    { type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
+    { type: "Buy", name: "Mie Ayam", gok: "16 - 23 Okt", amount: +30000, },
+    { type: "Buy", name: "Mie Ayam", gok: "17 - 24 Okt", amount: +30000, },
+    { type: "Buy", name: "Ayam Geprek", gok: "20 - 28 Okt", amount: +250000, },
+    { type: "Buy", name: "Mie Goreng", gok: "21 - 29 Okt", amount: +50000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
