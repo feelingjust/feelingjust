@@ -217,6 +217,32 @@
     background: linear-gradient(135deg, #4f46e5, #6366f1);
     outline: none;
   }
+  
+  /* Panel */
+  .panel {
+    margin-top: 16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px
+  }
+  .stats {
+    display:flex;
+    gap:12px
+  }
+  .stat {
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+    border:1px solid rgba(255,255,255,0.03),
+  }
+  .stat b {
+    display:block;font-size:20px
+  }
+  .muted {
+    color:#98a0b3;
+    font-weight:600
+  }
 
   /* Marketplace */
   .marketplace-list {
@@ -535,22 +561,36 @@
 <main class="container-main" role="main">
   <!-- Dashboard Section -->
   <section id="dashboard-section" class="app-section active" role="tabpanel" tabindex="0">
-    <center><p id="time"></p></center>
-    <h1>Dashboard</h1>
+<!-- Panel -->
+<aside class="panel">
+  <div class="card floating">
+      <div class="stats">
+      <div class="stat"><div class="muted">Pengguna</div><b>N$_PIwZ</b></div>
+      <div class="stat"><div class="muted">Pertumbuhan</div><b>&784J</b></div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="muted">Kualitas</div>
+      <div style="height:8px;background:rgba(255,255,255,0.04);border-radius:999px;margin-top:8px;overflow:hidden">
+      <div style="width:100%;height:8px;background:linear-gradient(90deg,#8b5cf6,#06b6d4);border-radius:999px;transition:width .6s ease"></div>
+      </div>
+  </div>
+</aside>
+    <center><p style="margin-bottom: 12px;" id="time"></p></center>
+    <!--h1>Dashboard</h1-->
     <div class="dashboard-overview" aria-label="Portfolio overview cards">
       <div class="card" tabindex="0" aria-label="Total Portfolio Value">
         <h2>Portfolio Value</h2>
         <div class="portfolio-value" id="dashboard-value" id="dashboard-portfolio-value" aria-live="polite">Rp 0</div>
-        <div class="portfolio-change positive" id="dashboard-portfolio-change" aria-label="Portfolio gain of 3.45%">Last Time +Rp 25.000</div>
+        <div class="portfolio-change positive" id="dashboard-portfolio-change" aria-label="Portfolio gain of 3.45%">Last Time +Rp 125.000</div>
       </div>
       <div class="card" tabindex="0" aria-label="Monthly Investment Performance">
         <h2>Monthly Performance</h2>
-        <div class="portfolio-value">+12.8%</div>
+        <div class="portfolio-value">0%</div><!--+12.8%-->
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Yearly Investment Performance">
         <h2>Yearly Performance</h2>
-        <div class="portfolio-value">+21.2%</div>
+        <div class="portfolio-value">0%</div> <!--+21.2%-->
         </div>
       </div>
     </div>
@@ -566,42 +606,42 @@
         <h2>Robzky</h2>
         <div class="portfolio-value" id="1money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:85%"></div>
+          <div class="bar-fill" style="width:100%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Danny">
         <h2>Danny</h2>
         <div class="portfolio-value" id="2money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width: 75%"></div>
+          <div class="bar-fill" style="width: 85%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Nakif">
         <h2>Nakif</h2>
         <div class="portfolio-value" id="3money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:65%"></div>
+          <div class="bar-fill" style="width:85%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Andi">
         <h2>Andi</h2>
         <div class="portfolio-value" id="4money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:50%"></div>
+          <div class="bar-fill" style="width:65%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Osis">
         <h2>Osis</h2>
         <div class="portfolio-value" id="5money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:35%"></div>
+          <div class="bar-fill" style="width:55%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Akmal">
         <h2>Akmal</h2>
         <div class="portfolio-value" id="6money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:0%"></div>
+          <div class="bar-fill" style="width:25%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Dela">
@@ -612,14 +652,14 @@
         </div>
     </div>
   <h7>Noted : If Auto Update</h7>
-    <div class="card" tabindex="0" aria-label="Waiting">
+    <!--<div class="card" tabindex="0" aria-label="Waiting">
         <h2>Coming Soon</h2>
-      </div>
+      </div-->
   </section>
 
   <!-- Marketplace Section -->
-  <section id="marketplace-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
-    <h1>Investment Marketplace</h1>  
+  <section id="marketplac-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1 style="margin-top: 12px;">Investment Marketplace</h1>  
     <table class="marketplace-list" role="table" aria-label="List of investment opportunities">
       <thead>
         <tr>
@@ -665,7 +705,7 @@
 
   <!-- Transactions Section -->
   <section id="transactions-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
-    <h1>Transaction History</h1>
+    <h1 style="margin-top: 12px;">Transaction History</h1>
     <div class="transaction-filters" aria-label="Transaction filters">
       <input type="search" id="transaction-search" placeholder="Search transactions" aria-label="Search transactions">
       <select id="transaction-type-filter" aria-label="Filter by transaction type">
@@ -685,7 +725,7 @@
 
   <!-- Profile Section -->
   <section id="profile-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
-    <h1>Your Profile</h1>
+    <h1 style="margin-top: 12px;">Your Profile</h1>
     <form class="profile-form" aria-label="User profile form">
       <label for="profile-name">Full Name</label>
       <input id="profile-name" name="profile-name" type="text" placeholder="John Doe" />
@@ -1025,44 +1065,44 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 500.000`;
-    document.getElementById('dashboard-value').innerText = moneyString;
+    var moneyString = `Rp 700.000`;
+    document.getElementById('dashboard-value.').innerText = moneyString;
         }
         
   function updateUserValue() {
     /* Pengingat 
-      1. 20.000
+      1. 20.000 DONE
       2. 25.000
       3. 25.000
       4. 15.000
       5. 15.000
       6. 125.000
     */
-    var moneyrobzkyString = `+Rp 120.000`;
+    var moneyrobzkyString = `+Rp 140.000`;
     var moneydannyString = `+Rp 150.000`;
-    var moneynakifString = `+Rp 125.000`;
-    var moneyandiString = `+Rp 60.000`;
-    var moneyosisString = `+Rp 45.000`;
-    var moneyakmalString = `+Rp 0`;
+    var moneynakifString = `+Rp 150.000`;
+    var moneyandiString = `+Rp 75.000`;
+    var moneyosisString = `+Rp 60.000`;
+    var moneyakmalString = `+Rp 125.000`;
     var moneydelaString = `+Rp 0`;
-    document.getElementById('1money-value').innerText = moneyrobzkyString;
-    document.getElementById('2money-value').innerText = moneydannyString;
-    document.getElementById('3money-value').innerText = moneynakifString;
-    document.getElementById('4money-value').innerText = moneyandiString;
-    document.getElementById('5money-value').innerText = moneyosisString;
-    document.getElementById('6money-value').innerText = moneyakmalString;
-    document.getElementById('7money-value').innerText = moneydelaString;
+    document.getElementById('1money-value.').innerText = moneyrobzkyString;
+    document.getElementById('2money-value.').innerText = moneydannyString;
+    document.getElementById('3money-value.').innerText = moneynakifString;
+    document.getElementById('4money-value.').innerText = moneyandiString;
+    document.getElementById('5money-value.').innerText = moneyosisString;
+    document.getElementById('6money-value.').innerText = moneyakmalString;
+    document.getElementById('7money-value.').innerText = moneydelaString;
         }
 
   // Transactions filtering and search
   const transactions = [
-    { type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
-    { type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
-    { type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
-    { type: "Buy", name: "Mie Ayam", gok: "16 - 23 Okt", amount: +30000, },
-    { type: "Buy", name: "Mie Ayam", gok: "17 - 24 Okt", amount: +30000, },
-    { type: "Buy", name: "Ayam Geprek", gok: "20 - 28 Okt", amount: +250000, },
-    { type: "Buy", name: "Mie Goreng", gok: "21 - 29 Okt", amount: +50000, },
+    //+{ type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
+    //+{ type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
+    //+{ type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
+    //+{ type: "Buy", name: "Mie Ayam", gok: "16 - 23 Okt", amount: +30000, },
+    //+{ type: "Buy", name: "Mie Ayam", gok: "17 - 24 Okt", amount: +30000, },
+    //+{ type: "Buy", name: "Ayam Geprek", gok: "20 - 28 Okt", amount: +250000, },
+    //+{ type: "Buy", name: "Mie Goreng", gok: "21 - 29 Okt", amount: +50000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
