@@ -613,7 +613,7 @@
         <h2>Danny</h2>
         <div class="portfolio-value" id="2money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width: 85%"></div>
+          <div class="bar-fill" style="width: 100%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Nakif">
@@ -1065,21 +1065,21 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 695.000`;
+    var moneyString = `Rp 720.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
   function updateUserValue() {
     /* Pengingat 
       1. 20.000 DONE
-      2. 25.000
+      2. 25.000 DONE
       3. 25.000
       4. 15.000 DONE
       5. 15.000
       6. 125.000
     */
     var moneyrobzkyString = `+Rp 140.000`;
-    var moneydannyString = `+Rp 150.000`;
+    var moneydannyString = `+Rp 175.000`;
     var moneynakifString = `+Rp 150.000`;
     var moneyandiString = `+Rp 70.000`;
     var moneyosisString = `+Rp 60.000`;
@@ -1095,7 +1095,7 @@
         }
 
   // Transactions filtering and search
-  const trnsactions = [
+  const transactions = [
     { type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
     { type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
     { type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
