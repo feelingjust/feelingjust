@@ -244,30 +244,30 @@
     font-weight:600
   }
 
-  /* Marketplace */
-  .marketplace-list {
+  /* withdrawal */
+  .withdrawal-list {
     width: 100%;
     border-collapse: collapse;
   }
-  .marketplace-list th, .marketplace-list td {
+  .withdrawal-list th, .withdrawal-list td {
     padding: 12px 8px;
     border-bottom: 1px solid #374151;
     text-align: left;
     font-size: 0.95rem;
     color: #cbd5e1;
   }
-  .marketplace-list th {
+  .withdrawal-list th {
     color: #818cf8;
     font-weight: 700;
     border-bottom: 2px solid #6366f1;
   }
-  .marketplace-list tr:hover, .marketplace-list tr:focus-within {
+  .withdrawal-list tr:hover, .withdrawal-list tr:focus-within {
     background-color: rgba(99, 102, 241, 0.15);
   }
-  .marketplace-list td .positive {
+  .withdrawal-list td .positive {
     color: #84cc16;
   }
-  .marketplace-list td .negative {
+  .withdrawal-list td .negative {
     color: #ef4444;
   }
   button.invest-btn {
@@ -284,6 +284,95 @@
     background: #6366f1;
     outline: none;
   }
+  
+    /* ===== Status Badges ===== */
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      text-transform: capitalize;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .pending {
+      background: rgba(255, 200, 50, 0.15);
+      border: 1px solid rgba(255, 200, 50, 0.4);
+      color: #ffcd4d;
+      box-shadow: 0 0 8px #ffcd4d44;
+    }
+
+    .processing {
+      background: rgba(80, 170, 255, 0.15);
+      border: 1px solid rgba(80, 170, 255, 0.4);
+      color: #70c8ff;
+      box-shadow: 0 0 8px #70c8ff44;
+    }
+
+    .success {
+      background: rgba(50, 255, 120, 0.15);
+      border: 1px solid rgba(50, 255, 120, 0.4);
+      color: #4aff9a;
+      box-shadow: 0 0 8px #4aff9a44;
+    }
+
+    .failed {
+      background: rgba(255, 60, 60, 0.15);
+      border: 1px solid rgba(255, 60, 60, 0.4);
+      color: #ff6060;
+      box-shadow: 0 0 8px #ff606044;
+    }
+
+    .canceled {
+      background: rgba(200, 200, 200, 0.1);
+      border: 1px solid rgba(200, 200, 200, 0.3);
+      color: #aaa;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(255,255,255,0.1); }
+      50% { box-shadow: 0 0 14px rgba(255,255,255,0.3); }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 700px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        background: rgba(255,255,255,0.03);
+        margin-bottom: 14px;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      td {
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #a89fff;
+      }
+    }
 
   /* Transactions */
   .transaction-filters {
@@ -542,7 +631,7 @@
     <div class="logo" tabindex="0" aria-label="InvestNaP Logo">InvestNaP</div>
     <nav class="desktop-nav" aria-label="Primary Navigation">
       <a href="#" class="nav-link active" data-section="dashboard" tabindex="0" role="tab" aria-selected="true" aria-controls="dashboard-section">Dashboard</a>
-      <a href="#" class="nav-link" data-section="marketplace" tabindex="0" role="tab" aria-selected="false" aria-controls="marketplace-section">Marketplace</a>
+      <a href="#" class="nav-link" data-section="withdrawal" tabindex="0" role="tab" aria-selected="false" aria-controls="withdrawal-section">Withdrawal</a>
       <a href="#" class="nav-link" data-section="transactions" tabindex="0" role="tab" aria-selected="false" aria-controls="transactions-section">Transactions</a>
       <a href="#" class="nav-link" data-section="profile" tabindex="0" role="tab" aria-selected="false" aria-controls="profile-section">Profile</a>
       <a href="#" class="nav-link" id="login-desktop-link" tabindex="0">Login</a>
@@ -551,7 +640,7 @@
   </div>
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation" aria-hidden="true">
     <a href="#" class="mobile-nav-link" data-section="dashboard" tabindex="-1">Dashboard</a>
-    <a href="#" class="mobile-nav-link" data-section="marketplace" tabindex="-1">Marketplace</a>
+    <a href="#" class="mobile-nav-link" data-section="withdrawal" tabindex="-1">Withdrawal</a>
     <a href="#" class="mobile-nav-link" data-section="transactions" tabindex="-1">Transactions</a>
     <a href="#" class="mobile-nav-link" data-section="profile" tabindex="-1">Profile</a>
     <a href="#login-modal" id="login-mobile-link" tabindex="-1">Login</a>
@@ -641,66 +730,79 @@
         <h2>Akmal</h2>
         <div class="portfolio-value" id="6money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:75%"></div>
+          <div class="bar-fill" style="width:85%"></div>
         </div>
       </div>
       <div class="card" tabindex="0" aria-label="Dela">
         <h2>Dela</h2>
         <div class="portfolio-value" id="7money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width: 55%"></div>
+          <div class="bar-fill" style="width: 65%"></div>
         </div>
     </div>
   <h7>Noted : If Auto Update</h7>
-    <!--<div class="card" tabindex="0" aria-label="Waiting">
-        <h2>Coming Soon</h2>
-      </div-->
+      </div>
   </section>
 
-  <!-- Marketplace Section -->
-  <section id="marketplace-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
-    <h1 style="margin-top: 12px;">Investment Marketplace</h1>  
-    <table class="marketplace-list" role="table" aria-label="List of investment opportunities">
+  <!-- Withdrawal Section -->
+  <section id="withdrawal-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1 style="margin-top: 12px; margin-bottom: 12px;">Withdrawal History</h1>      
+    <div class="card" tabindex="0" aria-label="Withdrawal">
+    <table>
       <thead>
         <tr>
-          <th scope="col">Opportunity</th>
-          <th scope="col">Type</th>
-          <th scope="col">Expected Return</th>
-          <th scope="col">Risk Level</th>
-          <th scope="col">Action</th>
+          <th>ID</th>
+          <th>User</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Method</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr tabindex="0">
-          <td>Green Energy Fund</td>
-          <td>Mutual Fund</td>
-          <td class="positive">8.5%</td>
-          <td>Medium</td>
-          <td><button class="invest-btn" data-opportunity="Green Energy Fund" aria-label="Invest in Green Energy Fund">Invest</button></td>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Robzky</td>
+          <td data-label="Amount">Rp 140.000</td>
+          <td data-label="Date">21 Okt 2025</td>
+          <td data-label="Method">E-Wallet Gopay</td>
+          <td data-label="Status"><span class="status pending">Pending</span></td>
         </tr>
-        <tr tabindex="0">
-          <td>Real Estate Trust</td>
-          <td>REIT</td>
-          <td class="positive">6.2%</td>
-          <td>Low</td>
-          <td><button class="invest-btn" data-opportunity="Real Estate Trust" aria-label="Invest in Real Estate Trust">Invest</button></td>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Danny</td>
+          <td data-label="Amount">Rp 175.000</td>
+          <td data-label="Date">22 Okt 2025</td>
+          <td data-label="Method">E-Wallet Gopay</td>
+          <td data-label="Status"><span class="status pending">Pending</span></td>
         </tr>
-        <tr tabindex="0">
-          <td>Cryptocurrency Index</td>
-          <td>Index Fund</td>
-          <td class="positive">15.3%</td>
-          <td>High</td>
-          <td><button class="invest-btn" data-opportunity="Cryptocurrency Index" aria-label="Invest in Cryptocurrency Index">Invest</button></td>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Nakif</td>
+          <td data-label="Amount">Rp 175.000</td>
+          <td data-label="Date">22 Okt 2025</td>
+          <td data-label="Method">E-Wallet N/X7</td>
+          <td data-label="Status"><span class="status pending">Pending</span></td>
         </tr>
-        <tr tabindex="0">
-          <td>Startup Venture Capital</td>
-          <td>Private Equity</td>
-          <td class="positive">20%</td>
-          <td>High</td>
-          <td><button class="invest-btn" data-opportunity="Startup Venture Capital" aria-label="Invest in Startup Venture Capital">Invest</button></td>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Andi</td>
+          <td data-label="Amount">Rp 70.000</td>
+          <td data-label="Date">23 Okt 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status failed">Failed</span></td>
+        </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Osis</td>
+          <td data-label="Amount">Rp 70.000</td>
+          <td data-label="Date">24 Okt 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status failed">Failed</span></td>
         </tr>
       </tbody>
     </table>
+  </div>
   </section>
 
   <!-- Transactions Section -->
@@ -940,7 +1042,7 @@
   const opportunityDisplay = document.getElementById('investment-opportunity-display');
   const investAmountInput = document.getElementById('investment-amount');
   const closeInvestModalBtn = document.getElementById('close-invest-modal');
-  // Invest buttons can come from marketplace or dashboard button
+  // Invest buttons can come from withdrawal or dashboard button
   function openInvestModal(opportunityName = 'Selected Investment') {
     opportunityDisplay.value = opportunityName;
     investAmountInput.value = '';
@@ -948,7 +1050,7 @@
     investModal.setAttribute('aria-hidden', 'false');
     investAmountInput.focus();
   }
-  // Marketplace invest buttons
+  // withdrawal invest buttons
   document.querySelectorAll('button.invest-btn').forEach(button => {
     button.addEventListener('click', () => {
       openInvestModal(button.dataset.opportunity);
@@ -1065,7 +1167,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 1.355.000`;
+    var moneyString = `Rp 1.505.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -1084,8 +1186,8 @@
     var moneynakifString = `+Rp 175.000`;
     var moneyandiString = `+Rp 70.000`;
     var moneyosisString = `+Rp 70.000`;
-    var moneyakmalString = `+Rp 625.000`;
-    var moneydelaString = `+Rp 100.000`;
+    var moneyakmalString = `+Rp 750.000`;
+    var moneydelaString = `+Rp 125.000`;
     document.getElementById('1money-value').innerText = moneyrobzkyString;
     document.getElementById('2money-value').innerText = moneydannyString;
     document.getElementById('3money-value').innerText = moneynakifString;
