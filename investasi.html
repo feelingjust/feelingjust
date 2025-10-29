@@ -864,7 +864,7 @@
           <td data-label="Amount">Rp 40.000</td>
           <td data-label="Date">29 Okt 2025</td>
           <td data-label="Method">E-Wallet Dana</td>
-          <td data-label="Status"><span class="status processing">processing</span></td>
+          <td data-label="Status"><span class="status success">Success</span></td>
         </tr>
       </tbody>
     </table>
@@ -1234,7 +1234,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 820.000`;
+    var moneyString = `Rp 780.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -1245,8 +1245,8 @@
       3. 25.000 DONE
       4. 15.000 DONE
       5. 15.000 DONE
-      6. 35.000
-      7. 25.000
+      6. 25.000
+      7. 40.000 -1
     */
     var moneyrobzkyString = `+Rp 140.000`;
     var moneydannyString = `+Rp 175.000`;
@@ -1254,7 +1254,7 @@
     var moneyandiString = `+Rp 70.000`;
     var moneyosisString = `+Rp 70.000`;
     var moneydelaString = `+Rp 150.000`;
-    var moneyreyString = `+Rp 40.000`;
+    var moneyreyString = `+Rp 0`;
     document.getElementById('1money-value').innerText = moneyrobzkyString;
     document.getElementById('2money-value').innerText = moneydannyString;
     document.getElementById('3money-value').innerText = moneynakifString;
@@ -1275,6 +1275,7 @@
     { type: "Buy", name: "Mie Goreng", gok: "21 - 29 Okt", amount: +50000, },
     { type: "Buy", name: "Pangsit", gok: "28 - 30 Okt", amount: +50000, },
     { type: "Sell", name: "Ayam Geprek", gok: "28 Okt", amount: -875000, },
+    { type: "Sell", name: "Pangsit", gok: "29 Okt", amount: -40000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
