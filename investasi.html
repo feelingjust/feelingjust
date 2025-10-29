@@ -244,6 +244,41 @@
     color:#98a0b3;
     font-weight:600
   }
+  
+    .marquee-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      border-top: 2px solid #8b5cf6;
+      border-bottom: 2px solid #8b5cf6;
+      border-radius: 16px;
+      padding: 12px 0;
+      background: rgba(25, 25, 40, 0.85);
+      box-shadow: 0 0 20px #8b5cf633;
+    }
+
+    .marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: berjalan 15s linear infinite;
+      font-size: 16px;
+      color: #e5e7eb;
+      text-shadow: 0 0 10px #8b5cf6;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes berjalan {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    @media (max-width: 600px) {
+      .marquee {
+        font-size: 14px;
+        animation-duration: 20s;
+      }
+    }
 
   /* withdrawal */
   .withdrawal-list {
@@ -761,7 +796,11 @@
         </tr>
       </thead>
       <tbody>
-       <div style="margin-bottom: 14px;" class="notifications" id="notifContainer">Coming Soon Information</div>
+       <div style="margin-bottom: 12px;" class="marquee-container">
+          <div class="marquee">
+           The Withdraw Balance Will Be Subject To An Admin Fee
+          </div>
+        </div>
         <tr>
           <td data-label="ID">#XXXXXX</td>
           <td data-label="User">Robzky</td>
