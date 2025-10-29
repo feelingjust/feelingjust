@@ -667,6 +667,7 @@
     <div class="logo" tabindex="0" aria-label="InvestNaP Logo">InvestNaP</div>
     <nav class="desktop-nav" aria-label="Primary Navigation">
       <a href="#" class="nav-link active" data-section="dashboard" tabindex="0" role="tab" aria-selected="true" aria-controls="dashboard-section">Dashboard</a>
+      <!--a href="#" class="nav-link" data-section="marketplace" tabindex="0" role="tab" aria-selected="false" aria-controls="marketplace-section">Marketplace (Coming Soon)</a-->
       <a href="#" class="nav-link" data-section="withdrawal" tabindex="0" role="tab" aria-selected="false" aria-controls="withdrawal-section">Withdrawal</a>
       <a href="#" class="nav-link" data-section="transactions" tabindex="0" role="tab" aria-selected="false" aria-controls="transactions-section">Transactions</a>
       <a href="#" class="nav-link" data-section="profile" tabindex="0" role="tab" aria-selected="false" aria-controls="profile-section">Profile</a>
@@ -676,6 +677,7 @@
   </div>
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation" aria-hidden="true">
     <a href="#" class="mobile-nav-link" data-section="dashboard" tabindex="-1">Dashboard</a>
+    <!--a href="#" class="mobile-nav-link" data-section="marketplace" tabindex="-1">Marketplace</a-->
     <a href="#" class="mobile-nav-link" data-section="withdrawal" tabindex="-1">Withdrawal</a>
     <a href="#" class="mobile-nav-link" data-section="transactions" tabindex="-1">Transactions</a>
     <a href="#" class="mobile-nav-link" data-section="profile" tabindex="-1">Profile</a>
@@ -779,6 +781,13 @@
   <h7>Noted : If Auto Update</h7>
       </div>
   </section>
+  
+  <!-- Marketplace Section -->
+  <section id="marketplace-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
+    <h1 style="margin-top: 12px; margin-bottom: 12px;">Marketplace History</h1>      
+    <div class="card" tabindex="0" aria-label="Marketplace">
+  </div>
+  </section>
 
   <!-- Withdrawal Section -->
   <section id="withdrawal-section" class="app-section" role="tabpanel" tabindex="0" aria-hidden="true">
@@ -849,10 +858,18 @@
           <td data-label="Method">E-Wallet Dana</td>
           <td data-label="Status"><span class="status success">Success</span></td>
         </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Rey</td>
+          <td data-label="Amount">Rp 40.000</td>
+          <td data-label="Date">29 Okt 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status processing">processing</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <button>Withdraw</button>
+  <!--center><button class="primary-btn" id="dashboard-invest-btn" aria-haspopup="dialog" aria-controls="invest-modal">Withdraw</button></center-->
   </section>
 
   <!-- Transactions Section -->
@@ -1093,7 +1110,7 @@
   const investAmountInput = document.getElementById('investment-amount');
   const closeInvestModalBtn = document.getElementById('close-invest-modal');
   // Invest buttons can come from withdrawal or dashboard button
-  function openInvestModal(opportunityName = 'Selected Investment') {
+  function openInvestModal(opportunityName = 'Selected E-Wallet') {
     opportunityDisplay.value = opportunityName;
     investAmountInput.value = '';
     investModal.classList.add('open');
