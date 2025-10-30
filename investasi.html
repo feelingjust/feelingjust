@@ -874,10 +874,17 @@
           <td data-label="Method">E-Wallet Gopay</td>
           <td data-label="Status"><span class="status failed">Failed</span></td>
         </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Andi</td>
+          <td data-label="Amount">Rp 30.000</td>
+          <td data-label="Date">30 Okt 2025</td>
+          <td data-label="Method">E-Wallet ShopeePay</td>
+          <td data-label="Status"><span class="status success">Success</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <!--center><button class="primary-btn" id="dashboard-invest-btn" aria-haspopup="dialog" aria-controls="invest-modal">Withdraw</button></center-->
   </section>
 
   <!-- Transactions Section -->
@@ -1118,7 +1125,7 @@
   const investAmountInput = document.getElementById('investment-amount');
   const closeInvestModalBtn = document.getElementById('close-invest-modal');
   // Invest buttons can come from withdrawal or dashboard button
-  function openInvestModal(opportunityName = 'Selected E-Wallet') {
+  function openInvestModal(opportunityName = 'Selected Investment') {
     opportunityDisplay.value = opportunityName;
     investAmountInput.value = '';
     investModal.classList.add('open');
@@ -1242,7 +1249,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 805.000`;
+    var moneyString = `Rp 775.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -1259,7 +1266,7 @@
     var moneyrobzkyString = `+Rp 140.000`;
     var moneydannyString = `+Rp 175.000`;
     var moneynakifString = `+Rp 175.000`;
-    var moneyandiString = `+Rp 70.000`;
+    var moneyandiString = `+Rp 40.000`;
     var moneyosisString = `+Rp 70.000`;
     var moneydelaString = `+Rp 175.000`;
     var moneyreyString = `+Rp 0`;
@@ -1284,6 +1291,7 @@
     { type: "Buy", name: "Pangsit", gok: "28 - 30 Okt", amount: +50000, },
     { type: "Sell", name: "Ayam Geprek", gok: "28 Okt", amount: -875000, },
     { type: "Sell", name: "Pangsit", gok: "29 Okt", amount: -40000, },
+    { type: "Sell", name: "Mie Ayam", gok: "30 Okt", amount: -30000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
