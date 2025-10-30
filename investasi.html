@@ -692,7 +692,7 @@
 <aside class="panel">
   <div class="card floating">
       <div class="stats">
-      <div class="stat"><div class="muted">User</div><b>9</b></div>
+      <div class="stat"><div class="muted">User</div><b>10</b></div>
       <div class="stat"><div class="muted">Growth</div><b>+8.2%</b></div>
       </div>
       <div style="height:12px"></div>
@@ -774,6 +774,13 @@
       <div class="card" tabindex="0" aria-label="Agus">
         <h2>Agus</h2>
         <div class="portfolio-value" id="7money-value">+Rp 0</div>
+        <div class="chart-bar" aria-hidden="true">
+          <div class="bar-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="card" tabindex="0" aria-label="Wahyu">
+        <h2>Wahyu</h2>
+        <div class="portfolio-value" id="8money-value">+Rp 0</div>
         <div class="chart-bar" aria-hidden="true">
           <div class="bar-fill" style="width:0%"></div>
         </div>
@@ -1270,6 +1277,7 @@
       5. 15.000 DONE
       6. 25.000 DONE
       7. 40.000
+      8. 40.000
     */
     var moneyrobzkyString = `+Rp 140.000`;
     var moneydannyString = `+Rp 175.000`;
@@ -1278,6 +1286,7 @@
     var moneyosisString = `+Rp 70.000`;
     var moneydelaString = `+Rp 175.000`;
     var moneyagusString = `+Rp 0`;
+    var moneywahyuString = `+Rp 0`;
     document.getElementById('1money-value').innerText = moneyrobzkyString;
     document.getElementById('2money-value').innerText = moneydannyString;
     document.getElementById('3money-value').innerText = moneynakifString;
@@ -1285,6 +1294,7 @@
     document.getElementById('5money-value').innerText = moneyosisString;
     document.getElementById('6money-value').innerText = moneydelaString;
     document.getElementById('7money-value').innerText = moneyagusString;
+    document.getElementById('8money-value').innerText = moneywahyuString;
         }
 
   // Transactions filtering and search
@@ -1302,6 +1312,7 @@
     { type: "Sell", name: "Mie Ayam", gok: "30 Okt", amount: -30000, },
     { type: "Buy", name: "Pangsit", gok: "30 - 32 Okt", amount: +50000, },
     { type: "Sell", name: "Pangsit", gok: "30 Okt", amount: -40000, },
+    { type: "Buy", name: "Pangsit", gok: "30 - 32 Okt", amount: +50000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
