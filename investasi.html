@@ -897,6 +897,14 @@
           <td data-label="Method">E-Wallet Dana</td>
           <td data-label="Status"><span class="status success">Success</span></td>
         </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Agus</td>
+          <td data-label="Amount">Rp 40.000</td>
+          <td data-label="Date">31 Okt 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status success">Success</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -1264,7 +1272,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 855.000`;
+    var moneyString = `Rp 815.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -1276,7 +1284,7 @@
       4. 15.000 DONE
       5. 15.000 DONE
       6. 25.000 DONE
-      7. 40.000
+      7. 40.000 -1
       8. 40.000
     */
     var moneyrobzkyString = `+Rp 140.000`;
@@ -1285,7 +1293,7 @@
     var moneyandiString = `+Rp 40.000`;
     var moneyosisString = `+Rp 70.000`;
     var moneydelaString = `+Rp 175.000`;
-    var moneyagusString = `+Rp 40.000`;
+    var moneyagusString = `+Rp 0`;
     var moneywahyuString = `+Rp 40.000`;
     document.getElementById('1money-value').innerText = moneyrobzkyString;
     document.getElementById('2money-value').innerText = moneydannyString;
@@ -1310,9 +1318,10 @@
     { type: "Sell", name: "Ayam Geprek", gok: "28 Okt", amount: -875000, },
     { type: "Sell", name: "Pangsit", gok: "29 Okt", amount: -40000, },
     { type: "Sell", name: "Mie Ayam", gok: "30 Okt", amount: -30000, },
-    { type: "Buy", name: "Pangsit", gok: "30 - 32 Okt", amount: +50000, },
+    { type: "Buy", name: "Pangsit", gok: "30 Okt - 1 Nov", amount: +50000, },
     { type: "Sell", name: "Pangsit", gok: "30 Okt", amount: -40000, },
-    { type: "Buy", name: "Pangsit", gok: "30 - 32 Okt", amount: +50000, },
+    { type: "Buy", name: "Pangsit", gok: "30 Okt - 1 Nov", amount: +50000, },
+    { type: "Sell", name: "Pangsit", gok: "31 Okt", amount: -40000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
