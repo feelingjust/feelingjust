@@ -771,20 +771,6 @@
           <div class="bar-fill" style="width:100%"></div>
         </div>
       </div>
-      <div class="card" tabindex="0" aria-label="Agus">
-        <h2>Agus</h2>
-        <div class="portfolio-value" id="7money-value">+Rp 0</div>
-        <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:100%"></div>
-        </div>
-      </div>
-      <div class="card" tabindex="0" aria-label="Wahyu">
-        <h2>Wahyu</h2>
-        <div class="portfolio-value" id="8money-value">+Rp 0</div>
-        <div class="chart-bar" aria-hidden="true">
-          <div class="bar-fill" style="width:100%"></div>
-        </div>
-    </div>
   <h7>Noted : If Auto Update</h7>
       </div>
   </section>
@@ -909,6 +895,22 @@
           <td data-label="ID">#XXXXXX</td>
           <td data-label="User">Wahyu</td>
           <td data-label="Amount">Rp 40.000</td>
+          <td data-label="Date">1 Nov 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status success">Success</span></td>
+        </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Agus</td>
+          <td data-label="Amount">Rp 40.000</td>
+          <td data-label="Date">1 Nov 2025</td>
+          <td data-label="Method">E-Wallet Dana</td>
+          <td data-label="Status"><span class="status success">Success</span></td>
+        </tr>
+        <tr>
+          <td data-label="ID">#XXXXXX</td>
+          <td data-label="User">Wahyu</td>
+          <td data-label="Amount">Rp 30.000</td>
           <td data-label="Date">1 Nov 2025</td>
           <td data-label="Method">E-Wallet Dana</td>
           <td data-label="Status"><span class="status success">Success</span></td>
@@ -1280,7 +1282,7 @@
   trapFocus(loginModal);
   
   function updateDashValue() {
-    var moneyString = `Rp 855.000`;
+    var moneyString = `Rp 775.000`;
     document.getElementById('dashboard-value').innerText = moneyString;
         }
         
@@ -1292,8 +1294,6 @@
       4. 15.000 DONE
       5. 15.000 DONE
       6. 25.000 DONE
-      7. 40.000 -1
-      8. 40.000 -1
     */
     var moneyrobzkyString = `+Rp 140.000`;
     var moneydannyString = `+Rp 175.000`;
@@ -1301,20 +1301,16 @@
     var moneyandiString = `+Rp 40.000`;
     var moneyosisString = `+Rp 70.000`;
     var moneydelaString = `+Rp 175.000`;
-    var moneyagusString = `+Rp 40.000`;
-    var moneywahyuString = `+Rp 40.000`;
     document.getElementById('1money-value').innerText = moneyrobzkyString;
     document.getElementById('2money-value').innerText = moneydannyString;
     document.getElementById('3money-value').innerText = moneynakifString;
     document.getElementById('4money-value').innerText = moneyandiString;
     document.getElementById('5money-value').innerText = moneyosisString;
     document.getElementById('6money-value').innerText = moneydelaString;
-    document.getElementById('7money-value').innerText = moneyagusString;
-    document.getElementById('8money-value').innerText = moneywahyuString;
         }
 
   // Transactions filtering and search
-  const trasactions = [
+  const transactions = [
     { type: "Buy", name: "Mie Ayam", gok:"14 - 21 Okt", amount: +40000 },
     { type: "Buy", name: "Mie Ayam", gok:"15 - 22 Okt", amount: +50000 },
     { type: "Buy", name: "Mie Ayam", gok: "15 - 22 Okt", amount: +50000 },
@@ -1331,6 +1327,8 @@
     { type: "Buy", name: "Pangsit", gok: "30 Okt - 1 Nov", amount: +50000, },
     { type: "Sell", name: "Pangsit", gok: "31 Okt", amount: -40000, },
     { type: "Sell", name: "Pangsit", gok: "1 Nov", amount: -40000, },
+    { type: "Sell", name: "Pangsit", gok: "1 Nov", amount: -40000, },
+    { type: "Sell", name: "Pangsit", gok: "1 Nov", amount: -30000, },
   ];
   const transactionListEl = document.getElementById('transaction-list');
   const searchInput = document.getElementById('transaction-search');
